@@ -1,0 +1,3 @@
+Enter user type:
+input username:
+Successful user login as admin! Games for sale are cancelled and user account removed!

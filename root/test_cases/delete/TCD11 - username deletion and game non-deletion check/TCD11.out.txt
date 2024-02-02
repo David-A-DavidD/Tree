@@ -1,0 +1,6 @@
+Enter user type:
+input username:
+Success: valid user type for which user and games can be deleted. 
+Games on sale associated with this username are deleted. 
+Transaction file updated! 
+No further transactions may further occur.

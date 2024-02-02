@@ -1,0 +1,2 @@
+Enter user type
+Error: as the user is not admin, valid username cannot be provided. Ensure you are logging in as admin.

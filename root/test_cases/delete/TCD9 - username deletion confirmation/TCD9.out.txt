@@ -1,0 +1,3 @@
+Enter user type:
+input username:
+Error: deletion of current user cannot occur.

@@ -1,0 +1,3 @@
+Enter user type:
+input username: 
+Valid admin username provided, can proceed for game cancellation and remove user account.

@@ -1,0 +1,4 @@
+login
+<admin>
+delete
+<valid admin username>

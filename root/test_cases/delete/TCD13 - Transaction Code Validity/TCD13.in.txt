@@ -1,0 +1,3 @@
+login
+<admin>
+<invalid delete syntax>

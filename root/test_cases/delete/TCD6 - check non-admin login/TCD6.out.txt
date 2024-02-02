@@ -1,0 +1,2 @@
+Enter user type:
+Error: Invalid user type provided (not admin), game cancellation will not proceed and you will not be able to enter username.

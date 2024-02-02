@@ -1,0 +1,5 @@
+login 
+<admin>
+delete
+<existing valid admin user name>
+

@@ -1,0 +1,2 @@
+Enter user type:
+Error: no information provided in login details/user type, try again to input procees.

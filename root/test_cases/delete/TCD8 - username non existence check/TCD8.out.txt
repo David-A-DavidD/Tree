@@ -1,0 +1,3 @@
+Enter user type:
+input username:
+Error: Username does not exist. Deletion process cannot occur.

@@ -1,0 +1,4 @@
+login
+<admin>
+delete
+<valid_existent_username_non-currentuser>

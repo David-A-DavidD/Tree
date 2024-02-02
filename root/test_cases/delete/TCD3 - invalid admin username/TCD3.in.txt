@@ -1,0 +1,3 @@
+login
+<not admin (could be FS, BS or SS)>
+delete

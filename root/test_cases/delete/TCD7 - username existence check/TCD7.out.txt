@@ -1,0 +1,3 @@
+Enter user type:
+input username:
+Success: Username exists and user is admin. Deletion process can occur.
