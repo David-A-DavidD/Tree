@@ -1,0 +1,2 @@
+<Block Transactions>
+Cannot conduct transactions until you are logged into a valid account

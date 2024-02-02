@@ -1,0 +1,2 @@
+<Disable all transactions except for the login Transaction>
+Please login to a valid account before attempting to use the program transactions
