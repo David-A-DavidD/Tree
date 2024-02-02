@@ -1,0 +1,6 @@
+login
+<username>
+buy
+<existing username>
+<existing game>
+N

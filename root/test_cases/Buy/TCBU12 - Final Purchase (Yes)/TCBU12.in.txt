@@ -1,0 +1,5 @@
+login
+<username>
+<existing username>
+<existing game>
+Y

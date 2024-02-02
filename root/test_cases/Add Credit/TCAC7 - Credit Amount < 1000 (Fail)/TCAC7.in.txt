@@ -1,0 +1,4 @@
+login
+<standard account existing username>
+add credit
+<credit amount>

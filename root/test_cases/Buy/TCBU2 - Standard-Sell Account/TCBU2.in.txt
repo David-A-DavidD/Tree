@@ -1,0 +1,3 @@
+login
+<standard-sell user>
+buy

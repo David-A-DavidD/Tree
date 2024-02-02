@@ -1,0 +1,5 @@
+login
+<username>
+buy
+<existing username>
+<non-existing game>
