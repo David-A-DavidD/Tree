@@ -1,0 +1,3 @@
+<Does not connect to Game Database>
+Error connecting to Game Database
+Please use the “Refresh” Command or contact Support

@@ -1,0 +1,2 @@
+<Denied Purchase> 
+Cannot Purchase another game until current session ends!

@@ -1,0 +1,2 @@
+<Remove Games with the same name> 
+Error “Name” pertains to two or more games! Duplicates are not allowed!
