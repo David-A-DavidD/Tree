@@ -1,0 +1,7 @@
+login
+<admin username>
+refund
+<valid buyer username>
+<valid seller username>
+<valid game name>
+<amount greater than seller balance>

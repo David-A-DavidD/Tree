@@ -1,0 +1,7 @@
+login
+<admin username>
+refund
+<valid buyer username>
+<valid seller username>
+<valid game name>
+<amount equal to game price>

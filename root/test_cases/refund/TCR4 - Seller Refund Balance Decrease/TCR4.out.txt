@@ -1,0 +1,2 @@
+Error.
+You do not have enough funds in your account to process this refund. Please try again.

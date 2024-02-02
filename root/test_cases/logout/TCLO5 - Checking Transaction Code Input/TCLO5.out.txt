@@ -1,0 +1,3 @@
+Error - unrecognized command
+Note: transaction codes MUST be all lowercase (ex: login, buy, etc.)
+Please try again.
