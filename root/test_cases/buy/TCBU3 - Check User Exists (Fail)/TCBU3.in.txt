@@ -1,0 +1,4 @@
+login
+<username>
+buy
+<non-existing username>

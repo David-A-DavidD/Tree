@@ -1,0 +1,5 @@
+login
+<admin username>
+add credit
+<existing username>
+<credit amount>
