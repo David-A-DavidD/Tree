@@ -1,3 +1,0 @@
-Credit could NOT be added to your account...
-Credit amount exceeds $1000 limit for this session. 
-Remaining Credit for this session <$>.

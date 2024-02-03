@@ -1,1 +1,0 @@
-Credit amount is not a valid number. Enter a numerical value.

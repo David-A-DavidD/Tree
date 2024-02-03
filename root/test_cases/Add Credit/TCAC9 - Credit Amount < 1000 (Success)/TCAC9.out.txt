@@ -1,3 +1,0 @@
-Credit has been added to your account...
-Details written and saved to daily transaction file!
-Remaining Credit for this session <$>

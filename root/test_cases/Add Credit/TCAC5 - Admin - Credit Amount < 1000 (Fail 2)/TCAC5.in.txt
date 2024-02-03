@@ -1,5 +1,0 @@
-login
-<admin username>
-add credit
-<existing username>
-<invalid credit amount>
