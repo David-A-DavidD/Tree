@@ -1,0 +1,7 @@
+Enter current username to login:
+Enter current user type:
+Enter new username:
+Enter new user type:
+
+
+Error! You're credit exceeds the maximum of 999,999. Cannot create a new user.

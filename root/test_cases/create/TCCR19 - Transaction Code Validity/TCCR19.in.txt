@@ -1,0 +1,7 @@
+login
+<username>
+<user type admin>
+<invalid create syntax>
+
+
+

@@ -1,0 +1,6 @@
+Enter current username to login:
+Enter current user type:
+Enter new username:
+Enter new user type:
+
+Error! New user not created as valid user type not inputted for new user. Can only input user types admin, full-standard, buy-standard or sell-standard. Try again.

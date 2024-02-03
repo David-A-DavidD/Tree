@@ -1,0 +1,8 @@
+Enter current username to login:
+Enter current user type:
+Enter new username:
+Enter new user type:
+
+Success! You have created a new user.
+
+Recorded information in daily transaction file.

@@ -1,0 +1,7 @@
+Enter current username to login:
+Enter current user type:
+Enter new username:
+Enter new user type:
+
+Error! New user not created as user type not inputted for new user. Try again.
+

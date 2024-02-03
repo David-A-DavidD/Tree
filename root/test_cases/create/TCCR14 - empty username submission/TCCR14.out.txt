@@ -1,0 +1,5 @@
+Enter current username to login:
+Enter current user type:
+Enter new username:
+
+Error! New username not entered, try again.

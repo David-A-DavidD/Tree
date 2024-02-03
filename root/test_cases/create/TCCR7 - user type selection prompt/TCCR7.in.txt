@@ -1,0 +1,6 @@
+login
+<username>
+<admin>
+create
+<new_username>
+<new_user type>

@@ -1,0 +1,7 @@
+Enter current username to login:
+Enter current user type:
+Enter new username:
+Enter new user type:
+
+Success! Provided user with sell-standard privileges.
+Recorded in daily transaction file.

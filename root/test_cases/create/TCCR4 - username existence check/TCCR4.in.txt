@@ -1,0 +1,6 @@
+login
+<username>
+<user type admin>
+create
+<exiting new_username>
+

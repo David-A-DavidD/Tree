@@ -1,0 +1,6 @@
+Enter current username to login:
+Enter current user type:
+
+Error - unrecognized command
+Note: transaction codes MUST be all lowercase (ex: create, delete, login, buy, etc.)
+Please try again.
