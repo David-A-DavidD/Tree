@@ -1,1 +1,0 @@
-Must login before attempting a transaction.

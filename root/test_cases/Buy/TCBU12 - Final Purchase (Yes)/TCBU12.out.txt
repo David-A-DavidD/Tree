@@ -1,4 +1,0 @@
-Game purchased.
-Game added to your collection.
-Funds have been withdrawn from your account and transferred to the seller. 
-Details written and saved to daily transaction file!
