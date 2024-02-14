@@ -9,7 +9,7 @@ std::string getGameName(const std::string fileName);
 std::string getUserName(const std::string );
 
 //Function to create a game entry
-std::string createEntry(const std::string ownerUserName);
+std::array<std::string, 2> createEntry(const std::string time,const std::string ownerUserName);
 
 
 int main(){
@@ -19,6 +19,23 @@ int main(){
     std::string nameGame = getGameName(file);
     //Following this retreive the username and store it in a variable named username
     std::string userName = getUserName();
+
+    //To add a game
+    std::cout << "Do you wish to create a game? Enter y for yes or press any key for no" << std::endl;
+    //Create variable to stor decision
+    std::string decision;
+    //User enters in their answer
+    std::cin >> decision;
+
+    if (decision =="y"){
+        //Have a placeholder variable for time for now
+        std::string time_now = "placeholder";
+        //Run the create an Entry function
+        createEntry(time_now, userName);
+    }
+    else{
+        std::cout << "You chose to not create a new entry" << std::endl;
+    }
     return 0;
 
 }//end int main
