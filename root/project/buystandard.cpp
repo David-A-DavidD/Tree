@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <string>
+#include "buystandard.h"
 
 /*
     This class and file represents an instance of a user with Buy-Standard privileges.
@@ -15,17 +16,6 @@
     Eventually, this class will be able to send File information to the Files class and
     its related children to save, write, or read any external files.
 */
-
-//Class meant to represent an instance of a buy standard user
-class BuyStandard
-{
-    //Variables associated with a buy standard user
-    public:
-        std::string transactionCode;
-        std::string username; //Will come from User class
-        int balance; //Will come from User class
-
-};
 
 //This method is used to give a predetermined credit amount and add it to the logged in user's account
 void addCredit(int credit, int &userAccount)
@@ -100,15 +90,18 @@ int main()
                 addCredit(creditInput, user.balance); //perform credit addtion
                 std::cout << "Success! Your account now has " << user.balance << " credit." << std::endl;
             }
-        }else if (user.transactionCode == "quit")
+        }else if (user.transactionCode == "logout")
         {
+            std::cout << "Logging out of " << user.username << "'s account...";
+
+            //TODO: Write daily transaction file upon logout
+
             break; //breaks out of loop to end session
         }else
         {
              //Output for errors in transaction command input
             std::cout << "Error - Unrecognized Command" << std::endl;
-            std::cout << "Note: transaction codes MUST be all lowercase (ex: login, buy, etc.)" << std::endl;
-            std::cout << "Please try again." << std::endl;
+            std::cout << "Note: transaction codes MUST be all lowercase (ex: login, buy, etc.), please try again." << std::endl;
         }
     }
     return 0;
