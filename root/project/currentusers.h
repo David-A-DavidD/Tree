@@ -4,10 +4,10 @@
 #include "file.h"
 #include <string>
 
-//Class meant to represent a collection of all currently available games in the system
+//Class meant to represent a collection of all the current users in the system
 class CurrentUsers: public File
 {
-    //Variables associated with available games collection
+    //Variables associated with CurrentUsers file
     public:
         std::string username;
         char userType;
