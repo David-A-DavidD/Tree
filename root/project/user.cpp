@@ -1,4 +1,4 @@
-
+// including relevant libraries
 #include "user.h"
 
 #include <fstream>
@@ -7,9 +7,9 @@
 // Method to log the user into the system
 
 void User::login() {
-    std::string username;
     // TODO: implement logic to log user into the system
     std::cout << "Enter your username: ";
+    std::string username;
     std::getline(std::cin, username);
 
     if (username.empty()) {
@@ -23,17 +23,17 @@ void User::checkPerms(std::string username) {
     // TODO: implement logic to check permissions of the current user (based on what type of user they are essentially)
     // - will have if else statements to check for the different types of users
     // - these checks will describe which type of permissions users have
-    std::cout << "Checking permission for the user: " << username << std::endl;
+    // - will have proper checks eventually by pulling user information to see what type of privileges they have
+    std::cout << "Checking permission for the user: " << username << " has Admin/Full-Standard/Buy-Standard/Sell-Standard privileges" << std::endl;
 }
 
-// FIX username error
 int main() {
     User user;
 
     // calling login function
     user.login();
 
-    std::string username = "user1";
+    std::string username = "Fareeha";  // Placeholder for now, will be properly functional during development
     user.checkPerms(username);
 
     return 0;
