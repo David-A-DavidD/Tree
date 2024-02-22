@@ -4,7 +4,7 @@
 #include <string>
 
 //Class meant to represent an instance of a sell standard user
-class SellStandard
+class SellStandard : public User
 {
     //variables associated with a sell standard user
     public:

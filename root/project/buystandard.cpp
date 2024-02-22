@@ -2,7 +2,7 @@
 #include <ctime>
 #include <string>
 #include "buystandard.h"
-
+#include "user.h"
 /*
     This class and file represents an instance of a user with Buy-Standard privileges.
     Any/all methods that a Buy-Standard user can use are represented here including...
@@ -39,7 +39,7 @@ void list()
 {
     //TODO: Iterate through available games file and display all relevant details
 }
-
+/*
 int main()
 {
     //Variables
@@ -106,3 +106,4 @@ int main()
     }
     return 0;
 }
+*/

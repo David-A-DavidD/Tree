@@ -2,6 +2,7 @@
 #include <ctime>
 #include <string>
 #include "sellstandard.h"
+#include "user.h"
 
 /*
     This class and file represents an instance of a user with Sell-Standard privileges.
@@ -38,6 +39,7 @@ void list()
     //TODO: Iterate through available games file and display all relevant details
 }
 
+/*
 int main()
 {
     //Variables
@@ -110,3 +112,4 @@ int main()
     }
     return 0;
 }
+*/

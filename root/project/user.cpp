@@ -8,14 +8,46 @@
 
 void User::login() {
     // TODO: implement logic to log user into the system
-    std::cout << "Enter your username: ";
-    std::string username;
-    std::getline(std::cin, username);
+    while (true)
+    {
+        std::cout << "Enter your username: ";
+        std::string username;
+        std::getline(std::cin, username);
 
-    if (username.empty()) {
-        std::cout << "Please enter a valid username" << std::endl;
+        if (username.empty()) {
+            std::cout << "Please enter a valid username" << std::endl;
+        }else
+        {
+            setUsername(username);
+            std::cout << "User is logged in." << std::endl;
+            break;
+        }
     }
-    std::cout << "User is logged in." << std::endl;
+}
+
+void User::setBalance(int balance){
+    this->balance = balance;
+}
+
+void User::setUsername(std::string username){
+    this->username = username;
+}
+
+void User::setUsertype(std::string usertype){
+    this->usertype = usertype;
+}
+
+std::string User::getUsertype(){
+    return usertype;
+}
+
+
+std::string User::getUsername(){
+    return username;
+}
+
+int User::getBalance(){
+    return balance;
 }
 
 // Method that will check the permissions of the current user
@@ -27,6 +59,7 @@ void User::checkPerms(std::string username) {
     std::cout << "Checking permission for the user: " << username << " has Admin/Full-Standard/Buy-Standard/Sell-Standard privileges" << std::endl;
 }
 
+/*
 int main() {
     User user;
 
@@ -38,3 +71,4 @@ int main() {
 
     return 0;
 }
+*/
