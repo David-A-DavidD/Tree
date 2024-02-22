@@ -12,6 +12,7 @@ void User::login() {
     {
         std::cout << "Enter your username: ";
         std::string username;
+        std::cin.ignore(); // Clear input buffer
         std::getline(std::cin, username);
 
         if (username.empty()) {
