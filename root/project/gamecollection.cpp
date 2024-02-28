@@ -8,7 +8,7 @@
 #include <string>
 #include <iomanip>
 
-std::string createGamesCollectionFile(std::string gameName, std::string ownerUserName);
+std::string createGamesCollectionFile(const std::string& gameName, const std::string& ownerUserName);
 
 
 int main(){
@@ -78,7 +78,7 @@ std::array<std::string, 2> createEntry(const std::string time,const std::string 
  
 }
 
-std::string createGamesCollectionFile(std::string gameName, std::string ownerUserName){
+std::string createGamesCollectionFile(const std::string& gameName, const std::string& ownerUserName) {
 
     const std::string gamesCollection = "gamesCollection.txt";
     std::ofstream outFile(gamesCollection,std::ios::app);
