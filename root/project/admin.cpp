@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iostream>
 #include <string>
+#include <fstream>
 
 /* This admin file may not be fully functional as certain functions and function calls are commented out due to functionality issues.
 // This files functionality is mostly commented out and may not be an executable.
@@ -28,16 +29,49 @@
 */
 
 // Method to display all games in the available games file
-void list() {
-    // TODO: implement logic to dispaly list of games that are stored in the available games file
-    std::cout << "Listing all games in the available games file." << std::endl;
+void Admin::list() {
+    // Open the file
+    std::ifstream file("placeholder_files/availablegames.txt");
+    
+    // Check if file is open successfully
+    if (!file.is_open()) {
+        std::cerr << "Error opening file: availablegames.txt" << std::endl;
+        return;
+    }
+    
+    std::cout << "Game Name\t\t   Owner\t   Price" <<std::endl;
+    std::cout << "-------------------------------------------------" << std::endl;
+    // Read and display each line
+    std::string line;
+    while (std::getline(file, line)) {
+        std::cout << line << std::endl;
+    }
+    
+    // Close the file
+    file.close();
 }
 
 // Method to display all active users on the system, along with their relevant information
-void listActive() {
-    std::cout << "Listing all active users on the system" << std::endl;
-    // TODO: implement logic to display the list of active accounts and their relevant information onto the terminal
-    // need to pull this information from user account data (reading the txt files)
+void Admin::listActive() {
+    // Open the file
+    std::ifstream file("placeholder_files/useraccounts.txt");
+    
+    // Check if file is open successfully
+    if (!file.is_open()) {
+        std::cerr << "Error opening file: useraccounts.txt" << std::endl;
+        return;
+    }
+    
+    std::cout << "User Name\tUser Type\tCredit" <<std::endl;
+    std::cout << "-------------------------------------------------" << std::endl;
+    // Read and display each line
+    std::string line;
+    while (std::getline(file, line)) {
+        std::cout << line << std::endl;
+    }
+    
+    // Close the file
+    file.close();
 }
 
 // Method to allow the admin to create another user on the system
@@ -66,7 +100,7 @@ void deleteUser(std::string existingUsername) {
 }
 
 // Method to put a game up for sale by the user
-void sell(std::string gameName, int price) {
+void Admin::sell(std::string gameName, int price) {
     std::cout << "Enter the  game name: " << std::endl;
     std::cin >> gameName;
     std::cout << "Enter price in dollars: " << std::endl;
@@ -77,7 +111,7 @@ void sell(std::string gameName, int price) {
 }
 
 // Method to allow the user to purchase a game from the available games library
-void buyGame(std::string gameName, std::string sellerUsername) {
+void Admin::buyGame(std::string gameName, std::string sellerUsername) {
     std::cout << "Enter the  game name: " << std::endl;
     std::cin >> gameName;
     std::cout << "Enter the seller username: " << std::endl;
@@ -105,7 +139,7 @@ void refund(std::string buyerUsername, std::string sellerUsername, int credit) {
 }
 
 // Method that lets the user add a specified amount of credit to the specified account username
-void addCredit(int credit, int &userAccount) {
+void Admin::addCredit(int credit, int &userAccount) {
     std::cout << "Enter the amount of credit to transfer: " << std::endl;
     std::cin >> credit;
     std::cout << "Enter the username where credit is beaing added: " << std::endl;
@@ -123,6 +157,7 @@ void logout() {
     std::cout << "Loggin user out of the system..." << std::endl;
 }
 
+/*
 int main() {
     // Variables
     Admin admin;
@@ -198,3 +233,4 @@ int main() {
     }
     return 0;
 }
+*/

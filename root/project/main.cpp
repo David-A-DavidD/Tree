@@ -3,6 +3,9 @@
 #include "buystandard.h"
 #include <fstream>
 #include "sellstandard.h"
+#include "admin.h"
+
+// Compile command: g++ main.cpp user.cpp sellstandard.cpp buystandard.cpp admin.cpp -o main && ./main
 
 int main() 
 {
@@ -23,10 +26,19 @@ int main()
         {
             std::cout << "Error - please type login to log into your account." << std::endl;
         }
+
+        if (command == "exit")
+        {
+            std::cout << "Exiting the system..." << std::endl;
+            break;
+        }
     }
 
     //Implement a way to set current user to object of corresponding class (ex: Admin currentUser if user is AA in current accounts file)
-    SellStandard currentUser;
+    //BuyStandard currentUser;
+    Admin currentUser;
+    //FullStandard currentUser;
+    //SellStandard currentUser;
 
     // Set BuyStandard user attributes inherited from User
     currentUser.transactionCode = "";
@@ -42,8 +54,10 @@ int main()
         if (currentUser.transactionCode == "list")
         {
             //TODO: If user calls list command, iterate through AvailableGames file and display all contents in that file
-            
-            //list();
+            currentUser.list();
+        }else if (currentUser.transactionCode == "listActive")
+        {
+            currentUser.listActive();
         }else if (currentUser.transactionCode == "buy")
         {
             std::string gameInput;
@@ -75,7 +89,7 @@ int main()
                 std::cout << "Error - Invalid Credit Amount" << std::endl;
             }else
             {
-                addCredit(creditInput, currentUser.balance); //perform credit addtion
+                currentUser.addCredit(creditInput, currentUser.balance); //perform credit addtion
                 std::cout << "Success! Your account now has " << currentUser.balance << " credit." << std::endl;
             }
         }else if (currentUser.transactionCode == "logout")
@@ -100,13 +114,7 @@ int main()
             std::cin >> sellingPrice; //get input
             std::cin.ignore(); // Clear the input buffer
 
-            if (sellingPrice > 999.99)
-            {
-                std::cout << "Error - Invalid Selling Price" << std::endl;
-            }
-
-            //sell(gameInput, sellingPrice);
-            std::cout << gameInput << " has been put up for sale for $" << sellingPrice << "." << std::endl;
+            currentUser.sell(gameInput, sellingPrice);
         }else
         {
              //Output for errors in transaction command input

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <string>
+#include <fstream>
 #include "buystandard.h"
 #include "user.h"
 /*
@@ -18,7 +19,7 @@
 */
 
 //This method is used to give a predetermined credit amount and add it to the logged in user's account
-void addCredit(int credit, int &userAccount)
+void BuyStandard::addCredit(int credit, int &userAccount)
 {
     userAccount += credit;
 }
@@ -35,9 +36,29 @@ std::string buy(std::string gameName, std::string sellerUsername)
 }
 
 //This method is used to list all games available in the available games file
-void list()
+void BuyStandard::list()
 {
     //TODO: Iterate through available games file and display all relevant details
+    // Open the file
+    std::ifstream file("placeholder_files/availablegames.txt");
+    
+    // Check if file is open successfully
+    if (!file.is_open()) {
+        std::cerr << "Error opening file: availablegames.txt" << std::endl;
+        return;
+    }
+    
+    
+    std::cout << "Game Name\t\t   Owner\t   Price" <<std::endl;
+    std::cout << "-------------------------------------------------" << std::endl;
+    // Read and display each line
+    std::string line;
+    while (std::getline(file, line)) {
+        std::cout << line << std::endl;
+    }
+    
+    // Close the file
+    file.close();
 }
 /*
 int main()
