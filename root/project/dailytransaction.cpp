@@ -3,6 +3,8 @@
 #include <string>
 #include <array>
 #include "dailytransaction.h"
+#include <fstream> 
+#include <iostream>
 
 
 int main(){

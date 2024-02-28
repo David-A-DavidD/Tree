@@ -3,6 +3,12 @@
 #include <string>
 #include <array>
 #include "gamecollection.h"
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+std::string createGamesCollectionFile(std::string gameName, std::string ownerUserName);
 
 
 int main(){
@@ -54,6 +60,7 @@ std::array<std::string, 2> createEntry(const std::string time,const std::string 
    std::cout << "Enter the name for your game" << std::endl;
    std::cin >> gameName;
 
+   
 
     //Now make an array to return the new entry
     std::array<std::string, 2> Entry;
@@ -64,8 +71,41 @@ std::array<std::string, 2> createEntry(const std::string time,const std::string 
     Entry[0] = gameName;
     Entry[1] = ownerUserName;
     std::cout << "Data entry created at " << time << std::endl;
+    createGamesCollectionFile(gameName, ownerUserName);
     return Entry;
 
 
  
+}
+
+std::string createGamesCollectionFile(std::string gameName, std::string ownerUserName){
+
+    const std::string gamesCollection = "gamesCollection.txt";
+    std::ofstream outFile(gamesCollection,std::ios::app);
+    //The length of each line within the file
+    const int length =42;
+    //now get the length for the gameName
+    const int gameNameCount = gameName.length();
+    //Now fine the length for the ownerUserName
+    const int ownerUserNameCount =ownerUserName.length();
+
+
+    //Now 
+    // int gameNameFills = gameNameCount < length ? length - gameNameCount - ownerUserNameCount : 0;
+    // int ownerUserNameFills = ownerUserNameCount < length ? length - ownerUserNameCount : 0;
+    int addPadds = length -gameNameCount - ownerUserNameCount;
+
+    outFile << gameName;
+   
+    for(int i=0; i < addPadds; i++){
+        outFile << "_";
+    }
+    outFile << ownerUserName <<std::endl;
+
+    // Close the file
+    outFile.close();
+
+    return gamesCollection;
+
+
 }
