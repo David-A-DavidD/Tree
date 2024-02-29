@@ -11,7 +11,7 @@
     // TT is the user type (AA=admin, FS=full-standard, BS=buy-standard, SS=sell-standard)
     // CCCCCCCCC is the available credit
     // _ is a space
-void createEntry(std::string username, std::string userType, double credit){
+void CurrentUsers::createEntry(std::string username, std::string userType, double credit){
 
     std::string nameSect = "UUUUUUUUUUUUUUU";
     std::string creditSect = "CCCCCCCCC";
@@ -66,7 +66,7 @@ void createEntry(std::string username, std::string userType, double credit){
 }
 
 //Create an “END” user placed at the end of the file
-void createEndUser(){
+void CurrentUsers::createEndUser(){
     //TODO: still need to implement this functionality
     
     std::string entry = "END________________000000000";
@@ -77,7 +77,8 @@ void createEndUser(){
 
 int main(){
 
-    createEntry("mc   555", "AA", 1234.57);
+    CurrentUsers cuFile;
+    cuFile.createEntry("mc   555", "AA", 1234.57);
 
     return 0;
 }

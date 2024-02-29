@@ -13,10 +13,9 @@ class CurrentUsers: public File
         char userType;
         int credit; 
 
-};
+        void createEntry(std::string username, std::string userType, double credit);
+        void createEndUser();
 
-//Method declarations - see cpp file for more info
-void createEntry(std::string username, char userType, int credit);
-void createEndUser();
+};
 
 #endif 

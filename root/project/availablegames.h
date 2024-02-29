@@ -13,10 +13,9 @@ class AvailableGames: public File
         std::string sellerUsername;
         double gamePrice; 
 
-};
+        void createEntry(std::string gameName, std::string sellerUsername, double gamePrice);
+        void createEndUser();
 
-//Method declarations - see cpp file for more info
-void createEntry(std::string gameName, std::string sellerUsername, double gamePrice);
-void createEndUser();
+};
 
 #endif 

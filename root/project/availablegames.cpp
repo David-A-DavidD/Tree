@@ -11,7 +11,7 @@
     // SSSSSSSSSSSSSSS is the seller’s username
     // PPPPPP is the price of the game
     // _ is a space
-void createEntry(std::string gameName, std::string sellerUsername, double gamePrice){
+void AvailableGames::createEntry(std::string gameName, std::string sellerUsername, double gamePrice){
 
     std::string gameSect = "IIIIIIIIIIIIIIIIIIIIIIIIII";
     std::string sellerSect = "SSSSSSSSSSSSSSS";
@@ -78,7 +78,7 @@ void createEntry(std::string gameName, std::string sellerUsername, double gamePr
 }
 
 //Create an “END” game placed at the end of the file
-void createEndUser(){
+void AvailableGames::createEndUser(){
 
     //TODO: still need to implement this functionality
     
@@ -89,7 +89,8 @@ void createEndUser(){
 int main(){
 
     //TODO: main body
-    createEntry("modern warfare", "michael", 80);
+    AvailableGames agFile;
+    agFile.createEntry("modern warfare", "michael", 80);
 
     return 0;
 }
