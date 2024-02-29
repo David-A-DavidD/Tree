@@ -6,7 +6,7 @@
 class File{
     public:
         std::string filetype = "text";
-    
+        
 
 };
 
