@@ -21,7 +21,7 @@ std::string recordSellerUsername();
 std::string createFileRefund(char transactionCode, std::string buyerUsername, std::string sellerUsername, int credit);
 
 //create FileSell
-std::string createFileSell(char transactionCode, std::string gameName, std::string sellerUsername,std::string buyerUserName, int gamePrice);
+void createSellEntry(std::string transactionCode, std::string gameName, std::string username, double gamePrice);
 
 //create FileSell
 void createEntry(std::string transactionCode, std::string username, std::string userType, double credit);
