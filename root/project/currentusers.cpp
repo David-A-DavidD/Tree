@@ -4,7 +4,7 @@
 #include <fstream>
 #include "currentusers.h"
 
-// Method to create a user entry into the Current Users File
+// Create a user entry into the Current Users File
 // format:  UUUUUUUUUUUUUUU_TT_CCCCCCCCC
     // where:	
     // UUUUUUUUUUUUUUU is the username 

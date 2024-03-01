@@ -9,45 +9,7 @@
 
 int main(){
 
-    //choose 1, 2 or 3 to refund this.
-    std::cout << "You may now pick the function that you wish to run" << std::endl;
-    std::cout << "Enter 1 for a Refund, Enter 2 for selling a game, Enter 3 for creating a File" << std::endl;
-    std::cout << "Or if you wish to exit press any other key."<< std::endl;
-    int userpick;
-    std::cin >> userpick;
-
-    if (userpick == 1){
-        //run the refund
-        char code = 'h';
-        std::string buyer ="penguin2000";
-        std::string seller = "leopard_Seal3000";
-        int credit = 9;
-
-        createFileRefund(code, buyer, seller, credit);
-    }
-    else if(userpick==2){
-        //run the refund
-        char code = 'h';
-        std::string buyer ="penguin2000";
-        std::string seller = "leopard_Seal3000";
-        std::string gameName = "Antartic Voyage adventure";
-        int price =90;
-        
-        createFileSell(code, gameName,seller,buyer,price);
-
-    }
-    else if(userpick==3){
-        //Variables for running the file
-        char code = 'h';
-        std::string userName = "MetroMan";
-        char userType ='A';
-        int credit =9;
-
-        createFile(code,userName,userType,credit);
-    }
-    else{
-        std::cout<<"You chose to exit out of the program.";
-    }
+    createEntry("01", "test_user", "FS", 145);
     return 0;
 }
 
@@ -81,10 +43,64 @@ std::string createFileSell(char transactionCode, std::string gameName, std::stri
     return "Game sold for 70 dollars";
 }
 
-//create FileSell
-std::string createFile(char transactionCode, std::string userName, char userType, int credit){
-    //to be done
-    std::cout <<"New File Created" << std::endl;
-    return "New File Created";
+// Create an entry for Daily Transaction File for create, delete, add_credit, logout
+// format:  XX_UUUUUUUUUUUUUUU_TT_CCCCCCCCC
+    // where:	
+    // XX is a two-digit transaction code: 01-create, 02-delete, 06-add credit, 00-end of session 
+    // UUUUUUUUUUUUUUU is the username (buyer if two users in the transaction)
+    // TT is the user type (AA=admin, FS=full-standard, BS=buy-standard, SS=sell-standard)
+    // CCCCCCCCC is the available credit
+    // _ is a space
+void createEntry(std::string transactionCode, std::string username, std::string userType, double credit){
+    
+    std::string nameSect = "UUUUUUUUUUUUUUU";
+    std::string creditSect = "CCCCCCCCC";
+
+    // Replace spaces in username with underscores 
+    std::replace(username.begin(), username.end(), ' ', '_');
+
+    //fill in nameSect according to username length
+    int len = nameSect.length();
+    if(username.length() > len){
+        username = username.substr(0, len);
+    }
+    else if(username.length() < len){
+        int leftover = len - username.length();
+        username.append(leftover, '_');
+    }
+
+    // fill in creditSect according to credit length
+    len = creditSect.length();
+    std::string creditString = std::to_string(credit);
+
+    // "." found in credit amount
+    if (creditString.find('.') == std::string::npos){
+        creditString.append(".00");
+    }
+
+    if(creditString.length() > len){
+        creditString = creditString.substr(0, len);
+    }
+    else if (creditString.length() < len){
+            int leftover = len - creditString.length();
+            creditString.append(leftover, '0');
+    }
+    
+    // Entry that will be added to end of Daily Transactions File
+    std::string entry = (transactionCode + "_" + username + "_" + userType + "_" + creditString);
+
+    // Open the file in append mode
+    std::ofstream outputFile("dailytransactions.txt", std::ios::app);
+
+    // Check if the file was opened successfully
+    if (outputFile.is_open()) {
+        // Append content to the file
+        outputFile << entry << "\n";
+
+        // Close the file
+        outputFile.close();
+    } else {
+        std::cerr << "Failed to open dailytransactions.txt for writing.\n";
+    }
 
 }
