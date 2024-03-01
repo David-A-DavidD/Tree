@@ -11,9 +11,13 @@
 int main() 
 {
     User user;
+    Admin currentUser;
     std::string username;
     std::string command;
     bool isLoggedIn = false;
+
+    currentUser.role = "00";
+
     while (command != "login"){
         std::cout << "Welcome. Please log in using the login command: ";
         std::cin >> command;
@@ -36,11 +40,27 @@ int main()
     }
 
     //Implement a way to set current user to object of corresponding class (ex: Admin currentUser if user is AA in current accounts file)
-    //BuyStandard currentUser;
-    //Admin currentUser;
-    //FullStandard currentUser;
-    SellStandard currentUser;
-    //CurrentUsers userFile;
+
+    if (user.getUsertype() == "AA")
+    {
+        std::cout << "Setting Role to AA." << std::endl;
+        currentUser.role = "AA";
+    
+    } else if (user.getUsertype() == "FS") 
+    {
+        std::cout << "Setting Role to FS." << std::endl;
+        currentUser.role = "FS";
+
+    } else if (user.getUsertype() == "BS") 
+    {
+        std::cout << "Setting Role to BS." << std::endl;
+        currentUser.role = "BS";
+
+    } else if (user.getUsertype() == "SS") 
+    {
+        std::cout << "Setting Role to SS." << std::endl;
+        currentUser.role = "SS";
+    } 
 
     // Set BuyStandard user attributes inherited from User
     currentUser.transactionCode = "";
@@ -53,15 +73,14 @@ int main()
         std::cout << "Welcome " + currentUser.username + ". Please Enter a Transaction Command: ";
         std::cin >> currentUser.transactionCode;
 
-        if (currentUser.transactionCode == "list")
+        if (currentUser.transactionCode == "list" && (currentUser.role == "AA" || currentUser.role == "FS" || currentUser.role == "SS" || currentUser.role == "BS"))
         {
             //TODO: If user calls list command, iterate through AvailableGames file and display all contents in that file
             currentUser.list();
-        }else if (currentUser.transactionCode == "listActive")
+        }else if (currentUser.transactionCode == "listActive" && currentUser.role == "AA")
         {
-        
             //currentUser.listActive();
-        }else if (currentUser.transactionCode == "buy")
+        }else if (currentUser.transactionCode == "buy" && (currentUser.role == "AA" || currentUser.role == "BS"))
         {
             std::string gameInput;
             std::string sellerInput;
@@ -80,7 +99,7 @@ int main()
             //TODO: Check if seller is in current user accounts file. If not, throw error
             //buy(gameInput, sellerInput);
             std::cout << "Success! " << gameInput << " has been added to your account." << std::endl;
-        }else if (currentUser.transactionCode == "addcredit")
+        }else if (currentUser.transactionCode == "addcredit" && (currentUser.role == "AA" || currentUser.role == "FS" || currentUser.role == "SS" || currentUser.role == "BS"))
         {
             int creditInput;
 
@@ -102,7 +121,7 @@ int main()
             //TODO: Write daily transaction file upon logout
 
             break; //breaks out of loop to end session
-        }else if (currentUser.transactionCode == "sell")
+        }else if (currentUser.transactionCode == "sell" && (currentUser.role == "AA" || currentUser.role == "SS"))
         {
             std::string gameInput;
             int sellingPrice;
@@ -134,6 +153,7 @@ int main()
              //Output for errors in transaction command input
             std::cout << "Error - Unrecognized Command" << std::endl;
             std::cout << "Note: transaction codes MUST be all lowercase (ex: login, buy, etc.), please try again." << std::endl;
+            std::cout << currentUser.role << std::endl;
         }
     }
     return 0;

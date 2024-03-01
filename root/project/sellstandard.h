@@ -11,6 +11,7 @@ class SellStandard : public User
     public:
         std::string transactionCode;
         std::string username; //Will come from User class
+        std::string role;
         int balance; //Will come from User class
 
         //Method declarations - see cpp file for more info

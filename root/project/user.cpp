@@ -15,10 +15,19 @@ void User::login() {
         std::cin.ignore(); // Clear input buffer
         std::getline(std::cin, username);
 
+        for (char& c : username) 
+            {
+                if (c == ' ')
+                {
+                    c = '_';
+                }
+            }
+
         if (username.empty()) {
             std::cout << "Please enter a valid username" << std::endl;
         }else
         {
+            checkPerms(username);
             setUsername(username);
             std::cout << "User is logged in." << std::endl;
             break;
@@ -52,12 +61,58 @@ int User::getBalance(){
 }
 
 // Method that will check the permissions of the current user
-void User::checkPerms(std::string username) {
-    // TODO: implement logic to check permissions of the current user (based on what type of user they are essentially)
-    // - will have if else statements to check for the different types of users
-    // - these checks will describe which type of permissions users have
-    // - will have proper checks eventually by pulling user information to see what type of privileges they have
-    std::cout << "Checking permission for the user: " << username << " has Admin/Full-Standard/Buy-Standard/Sell-Standard privileges" << std::endl;
+void User::checkPerms(std::string username) 
+{
+    std::ifstream file("currentusers.txt");
+
+    if (file.is_open()) 
+    {
+        std::string line;
+
+        while (std::getline(file, line)) 
+        {
+            std::string user, userType, credit;
+            user = line.substr(0, 16); // Assuming username length is fixed to 16 characters
+            // Remove trailing underscores from the username read from the file
+            size_t lastCharFile = user.find_last_not_of('_');
+            if (lastCharFile != std::string::npos) 
+            {
+                user = user.substr(0, lastCharFile + 1);
+            }
+            userType = line.substr(16, 2); // UserType starts from index 17 and is 2 characters long
+            if (user == username) {
+                std::cout << "Checking permission for the user: " << username << std::endl;
+                if (userType == "AA") 
+                {
+                    std::cout << "User has Admin privileges" << std::endl;
+                    User::setUsertype("AA");
+
+                } else if (userType == "FS")
+                {
+                    std::cout << "User has Full-Standard privileges" << std::endl;
+                    User::setUsertype("FS");
+
+                } else if (userType == "BS") 
+                {
+                    std::cout << "User has Buy-Standard privileges" << std::endl;
+                    User::setUsertype("BS");
+
+                } else if (userType == "SS") 
+                {
+                    std::cout << "User has Sell-Standard privileges" << std::endl;
+                    User::setUsertype("SS");
+                } else 
+                {
+                    std::cout << "Unknown user type" << std::endl;
+                }
+                return; // User found and permissions checked, exit the function
+            }
+        }
+        std::cout << "User not found in the records" << std::endl;
+        file.close();
+    } else {
+        std::cerr << "Unable to open file" << std::endl;
+    }
 }
 
 /*

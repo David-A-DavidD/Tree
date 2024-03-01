@@ -4,14 +4,16 @@
 #define ADMIN_H
 
 #include <string>
+#include "user.h"
 
 // Class meant to represent an instance of a Admin user
-class Admin {
+class Admin : public User{
     // Variables associated with a Admin user
    public:
     std::string transactionCode;
-    std::string username;  // Will come from User class
-    int balance;           // Will come from User class
+    std::string username; //Will come from User class
+    std::string role;
+    int balance; //Will come from User class
 
     // Method declarations - see cpp file for more info
     void list();

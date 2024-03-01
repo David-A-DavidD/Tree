@@ -10,6 +10,9 @@ class BuyStandard : public User
     //Variables associated with a buy standard user
     public:
         std::string transactionCode;
+        std::string username; //Will come from User class
+        std::string role;
+        int balance; //Will come from User class
         
         //Method declarations - see cpp file for more info
         void addCredit(int credit, int &userAccount);
