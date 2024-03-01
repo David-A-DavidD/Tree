@@ -6,7 +6,7 @@
 #include "admin.h"
 #include "currentusers.h"
 
-// Compile command: g++ main.cpp user.cpp sellstandard.cpp buystandard.cpp admin.cpp -o main && ./main
+// Compile command: g++ main.cpp user.cpp admin.cpp -o main && ./main
 
 int main() 
 {
@@ -77,9 +77,9 @@ int main()
         {
             //TODO: If user calls list command, iterate through AvailableGames file and display all contents in that file
             currentUser.list();
-        }else if (currentUser.transactionCode == "listActive" && currentUser.role == "AA")
+        }else if (currentUser.transactionCode == "listactive" && currentUser.role == "AA")
         {
-            //currentUser.listActive();
+            currentUser.listActive();
         }else if (currentUser.transactionCode == "buy" && (currentUser.role == "AA" || currentUser.role == "BS"))
         {
             std::string gameInput;
@@ -103,8 +103,11 @@ int main()
         {
             int creditInput;
 
-            std::cout << "How much credit would you like to add? ";
-            std::cin >> creditInput; //get input
+            if (currentUser.role != "AA")
+            {
+                std::cout << "How much credit would you like to add? ";
+                std::cin >> creditInput; //get input
+            }
             
             if (creditInput < 0 || creditInput > 1000)
             {

@@ -169,11 +169,17 @@ void refund(std::string buyerUsername, std::string sellerUsername, int credit) {
 
 // Method that lets the user add a specified amount of credit to the specified account username
 void Admin::addCredit(int credit, int &userAccount) {
-    std::cout << "Enter the amount of credit to transfer: " << std::endl;
-    std::cin >> credit;
-    std::cout << "Enter the username where credit is beaing added: " << std::endl;
-    std::cin >> userAccount;
-    std::cout << "Adding credit: " << credit << "to user account: " << userAccount << std::endl;
+    if (role == "AA")
+    {
+        std::cout << "Enter the amount of credit to transfer: " << std::endl;
+        std::cin >> credit;
+        std::cout << "Enter the username where credit is being added: " << std::endl;
+        std::cin >> userAccount;
+        std::cout << "Adding credit: " << credit << "to user account: " << userAccount << std::endl;
+    } else
+    {
+        userAccount += credit;
+    }
     // TODO: implement logic to let user add specified amount of credit to the specified account username
     // TODO: set logic so A maximum of $1000.00 can be added to an account in a given session.
     //- if else statement
