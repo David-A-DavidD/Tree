@@ -5,14 +5,14 @@
 #include <fstream> 
 #include <iostream>
 
-
+/*
 int main(){
 
     // createEntry("01", "test_user", "FS", 145);
     // createSellEntry("03", "Fifa 24", "test_user", 79.99);
     return 0;
 }
-
+*/
 
 
 

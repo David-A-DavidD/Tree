@@ -5,6 +5,7 @@
 #include "sellstandard.h"
 #include "admin.h"
 #include "currentusers.h"
+#include "dailytransaction.h"
 
 // Compile command: g++ main.cpp user.cpp admin.cpp -o main && ./main
 
@@ -12,8 +13,12 @@ int main()
 {
     User user;
     Admin currentUser;
+
     std::string username;
     std::string command;
+
+    DailyTransaction dtf;
+
     bool isLoggedIn = false;
 
     currentUser.role = "00";
@@ -115,19 +120,19 @@ int main()
             }else
             {
                 currentUser.addCredit(creditInput, currentUser.balance); //perform credit addtion
+                dtf.createEntry("06", currentUser.username, currentUser.role, currentUser.balance);
                 std::cout << "Success! Your account now has " << currentUser.balance << " credit." << std::endl;
             }
         }else if (currentUser.transactionCode == "logout")
         {
             std::cout << "Logging out of " << currentUser.username << "'s account...";
 
-            //TODO: Write daily transaction file upon logout
-
+            dtf.createEntry("00", currentUser.username, currentUser.role, currentUser.balance);
             break; //breaks out of loop to end session
         }else if (currentUser.transactionCode == "sell" && (currentUser.role == "AA" || currentUser.role == "SS"))
         {
             std::string gameInput;
-            int sellingPrice;
+            double sellingPrice;
 
             std::cout << "What game would you like to sell? ";
             std::cin.ignore(); // Clear the input buffer
@@ -151,6 +156,8 @@ int main()
             std::cin.ignore(); // Clear the input buffer
 
             currentUser.sell(gameInput, sellingPrice);
+            dtf.createSellEntry("03", gameInput, currentUser.username, sellingPrice);
+
         }else
         {
              //Output for errors in transaction command input
