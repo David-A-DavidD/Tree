@@ -40,7 +40,7 @@ void BuyStandard::list()
 {
     //TODO: Iterate through available games file and display all relevant details
     // Open the file
-    std::ifstream file("placeholder_files/availablegames.txt");
+    std::ifstream file("availablegames.txt");
     
     // Check if file is open successfully
     if (!file.is_open()) {

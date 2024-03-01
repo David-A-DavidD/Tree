@@ -23,6 +23,8 @@ class Admin {
     void refund(std::string buyerUsername, std::string sellerUsername, int credit);
     void addCredit(int credit, int &userAccount);
     void logout();
+    bool isGameAvailable(const std::string& gameName, const std::vector<std::string>& availableGames);
+    std::vector<std::string> readAvailableGames(const std::string& filename);
 };
 
 #endif

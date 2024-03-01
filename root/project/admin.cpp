@@ -31,7 +31,7 @@
 // Method to display all games in the available games file
 void Admin::list() {
     // Open the file
-    std::ifstream file("placeholder_files/availablegames.txt");
+    std::ifstream file("availablegames.txt");
     
     // Check if file is open successfully
     if (!file.is_open()) {
@@ -54,11 +54,11 @@ void Admin::list() {
 // Method to display all active users on the system, along with their relevant information
 void Admin::listActive() {
     // Open the file
-    std::ifstream file("placeholder_files/useraccounts.txt");
+    std::ifstream file("currentusers.txt");
     
     // Check if file is open successfully
     if (!file.is_open()) {
-        std::cerr << "Error opening file: useraccounts.txt" << std::endl;
+        std::cerr << "Error opening file: currentusers.txt" << std::endl;
         return;
     }
     
@@ -99,15 +99,44 @@ void deleteUser(std::string existingUsername) {
     // TODO: implement logic to record this in daily transaction file
 }
 
-// Method to put a game up for sale by the user
+bool Admin::isGameAvailable(const std::string& gameName, const std::vector<std::string>& availableGames) {
+    for (const std::string& entry : availableGames) {
+        // Read only the first 25 characters of the entry
+        std::string gameEntry = entry.substr(0, 25);
+
+        // Remove trailing underscores
+        size_t lastChar = gameEntry.find_last_not_of('_');
+        if (lastChar != std::string::npos) {
+            gameEntry = gameEntry.substr(0, lastChar + 1);
+        }
+
+        // If the game name matches, return true (game is available)
+        if (gameEntry == gameName) {
+            return true;
+        }
+    }
+    // Game not found in available games list
+    return false;
+}
+
+
 void Admin::sell(std::string gameName, int price) {
-    std::cout << "Enter the  game name: " << std::endl;
-    std::cin >> gameName;
-    std::cout << "Enter price in dollars: " << std::endl;
-    std::cin >> price;
-    std::cout << "Putting a game up for sale: " << gameName << "price: " << price << std::endl;
-    // TODO: implement logic to sell game
-    // TODO: implement logic to should save this information to the daily transaction file
+    // Load available games from file
+    std::ifstream file("availablegames.txt");
+    std::vector<std::string> availableGames;
+    std::string line;
+    while (std::getline(file, line)) {
+        availableGames.push_back(line);
+    }
+    file.close();
+
+    // Check if the game is available for sale
+    if (isGameAvailable(gameName, availableGames)) {
+        std::cout << gameName << " has been put up for sale for $" << price << "." << std::endl;
+        // TODO: Add code here to update the available games file with the new game for sale
+    } else {
+        std::cout << "Error - Game '" << gameName << "' is not available for sale." << std::endl;
+    }
 }
 
 // Method to allow the user to purchase a game from the available games library

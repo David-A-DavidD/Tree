@@ -4,6 +4,7 @@
 #include <fstream>
 #include "sellstandard.h"
 #include "admin.h"
+#include "currentusers.h"
 
 // Compile command: g++ main.cpp user.cpp sellstandard.cpp buystandard.cpp admin.cpp -o main && ./main
 
@@ -36,9 +37,10 @@ int main()
 
     //Implement a way to set current user to object of corresponding class (ex: Admin currentUser if user is AA in current accounts file)
     //BuyStandard currentUser;
-    Admin currentUser;
+    //Admin currentUser;
     //FullStandard currentUser;
-    //SellStandard currentUser;
+    SellStandard currentUser;
+    //CurrentUsers userFile;
 
     // Set BuyStandard user attributes inherited from User
     currentUser.transactionCode = "";
@@ -57,7 +59,8 @@ int main()
             currentUser.list();
         }else if (currentUser.transactionCode == "listActive")
         {
-            currentUser.listActive();
+        
+            //currentUser.listActive();
         }else if (currentUser.transactionCode == "buy")
         {
             std::string gameInput;
@@ -108,7 +111,18 @@ int main()
             std::cin.ignore(); // Clear the input buffer
             std::getline(std::cin, gameInput); //get input
         
+            for (char& c : gameInput) 
+            {
+                if (c == ' ')
+                {
+                    c = '_';
+                }
+            }
             //TODO: Check if gameInput is <= 25 characters and is unique. If not, throw error
+            if (gameInput.length() > 25) 
+            {
+                std::cout << "Error - Game cannot exceed 25 characters" << std::endl;
+            }
 
             std::cout << "How much would you like to sell it for? ";
             std::cin >> sellingPrice; //get input

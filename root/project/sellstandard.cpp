@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "sellstandard.h"
 #include "user.h"
+#include <sstream>
 
 /*
     This class and file represents an instance of a user with Sell-Standard privileges.
@@ -26,50 +27,53 @@ void SellStandard::addCredit(int credit, int &userAccount)
     userAccount += credit;
 }
 
-// Function to check if a game exists in the available games list
-bool isGameAvailable(const std::string& gameName, const std::vector<std::string>& availableGames) {
-    return std::find(availableGames.begin(), availableGames.end(), gameName) != availableGames.end();
+bool SellStandard::isGameAvailable(const std::string& gameName, const std::vector<std::string>& availableGames) {
+    for (const std::string& entry : availableGames) {
+        // Read only the first 25 characters of the entry
+        std::string gameEntry = entry.substr(0, 25);
+
+        // Remove trailing underscores
+        size_t lastChar = gameEntry.find_last_not_of('_');
+        if (lastChar != std::string::npos) {
+            gameEntry = gameEntry.substr(0, lastChar + 1);
+        }
+
+        // If the game name matches, return true (game is available)
+        if (gameEntry == gameName) {
+            return true;
+        }
+    }
+    // Game not found in available games list
+    return false;
 }
 
-// Function to read available games from file
-std::vector<std::string> readAvailableGames() {
+
+void SellStandard::sell(std::string gameName, int price) {
+    // Load available games from file
+    std::ifstream file("availablegames.txt");
     std::vector<std::string> availableGames;
-    std::ifstream file("placeholder_files/availablegames.txt");
-    std::string game;
-    while (std::getline(file, game)) {
-        availableGames.push_back(game);
+    std::string line;
+    while (std::getline(file, line)) {
+        availableGames.push_back(line);
     }
     file.close();
-    return availableGames;
-}
 
-//This method is used to put a game from the available games file up for sale with an associated price
-void sell(std::string gameName, int price)
-{
-    // Read available games from file
-    std::vector<std::string> availableGames = readAvailableGames();
-    
-    // Check if the game is available
-    if (!isGameAvailable(gameName, availableGames)) {
+    // Check if the game is available for sale
+    if (isGameAvailable(gameName, availableGames)) {
+        std::cout << gameName << " has been put up for sale for $" << price << "." << std::endl;
+        // TODO: Add code here to update the available games file with the new game for sale
+    } else {
         std::cout << "Error - Game '" << gameName << "' is not available for sale." << std::endl;
     }
-    else
-    {
-        std::cout << gameName << " has been put up for sale for $" << price << "." << std::endl;
-    }
-    
-    // Check if the selling price is valid
-    if (price > 999.99) {
-        std::cout << "Error - Invalid Selling Price for '" << gameName << "'" << std::endl;
-    }
 }
+
 
 //This method is used to list all games available in the available games file
 void SellStandard::list()
 {
     //TODO: Iterate through available games file and display all relevant details
     // Open the file
-    std::ifstream file("placeholder_files/availablegames.txt"); //PLACEHOLDER
+    std::ifstream file("availablegames.txt"); 
     
     // Check if file is open successfully
     if (!file.is_open()) {
