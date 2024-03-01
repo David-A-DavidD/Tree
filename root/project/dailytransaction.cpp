@@ -9,7 +9,7 @@
 int main(){
 
     // createEntry("01", "test_user", "FS", 145);
-    createSellEntry("03", "Fifa 24", "test_user", 79.99);
+    // createSellEntry("03", "Fifa 24", "test_user", 79.99);
     return 0;
 }
 
@@ -45,7 +45,7 @@ std::string createFileRefund(char transactionCode, std::string buyerUsername, st
     // SSSSSSSSSSSSS is the seller’s username
     // PPPPPP is the price
     // _ is a space
-void createSellEntry(std::string transactionCode, std::string gameName, std::string username, double gamePrice){
+void DailyTransaction::createSellEntry(std::string transactionCode, std::string gameName, std::string username, double gamePrice){
     
     std::string gameNameSect = "IIIIIIIIIIIIIIIIIII";
     std::string nameSect = "SSSSSSSSSSSSS";
@@ -120,7 +120,7 @@ void createSellEntry(std::string transactionCode, std::string gameName, std::str
     // TT is the user type (AA=admin, FS=full-standard, BS=buy-standard, SS=sell-standard)
     // CCCCCCCCC is the available credit
     // _ is a space
-void createEntry(std::string transactionCode, std::string username, std::string userType, double credit){
+void DailyTransaction::createEntry(std::string transactionCode, std::string username, std::string userType, double credit){
     
     std::string nameSect = "UUUUUUUUUUUUUUU";
     std::string creditSect = "CCCCCCCCC";
