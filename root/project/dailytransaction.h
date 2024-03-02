@@ -16,6 +16,7 @@ class DailyTransaction
         // Function to grab the SellerUserName
         std::string recordSellerUsername();
 
+        void createBuyEntry(std::string transactionCode, std::string gameName, std::string sellerUsername, std::string buyerUsername, double gamePrice);
         void createRefundEntry(std::string transactionCode, std::string buyerUsername, std::string sellerUsername, double credit);
         void createSellEntry(std::string transactionCode, std::string gameName, std::string username, double gamePrice);
         void createEntry(std::string transactionCode, std::string username, std::string userType, double credit);

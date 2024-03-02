@@ -10,9 +10,10 @@ int main(){
 
     DailyTransaction dt;
 
-    // createEntry("01", "test_user", "FS", 145);
-    // createSellEntry("03", "Fifa 24", "test_user", 79.99);
-    dt.createRefundEntry("05", "buyer user", "seller user", 78);
+    // dt.createEntry("01", "test_user", "FS", 145);
+    // dt.createSellEntry("03", "Fifa 24", "test_user", 79.99);
+    // dt.createRefundEntry("05", "buyer user", "seller user", 78);
+    dt.createBuyEntry("04", "fifa25", "seller_user", "buyer user", 90);
     return 0;
 }
 
@@ -32,6 +33,98 @@ std::string recordSellerUsername(){
     std::string sellerUserName = "placeholder";
     return sellerUserName;
 }//end recordBuyerUsername
+
+
+// Create an entry for Daily Transaction File for buy
+// format:  XX_IIIIIIIIIIIIIIIIIII_SSSSSSSSSSSSSSS_UUUUUUUUUUUUUU_PPPPPP
+    // where:	
+    // XX is a two-digit transaction code: 04-buy.
+    // IIIIIIIIIIIIIIIIIII is the game name
+    // SSSSSSSSSSSSSSS is the seller’s username
+    // UUUUUUUUUUUUUU is the buyer's username
+    // PPPPPP is the game’s price
+    // _ is a space
+void DailyTransaction::createBuyEntry(std::string transactionCode, std::string gameName, std::string sellerUsername, std::string buyerUsername, double gamePrice){
+
+    std::string gameNameSect = "IIIIIIIIIIIIIIIIIII";
+    std::string buyerNameSect = "UUUUUUUUUUUUUUU";
+    std::string sellerNameSect = "SSSSSSSSSSSSSSS";
+    std::string gamePriceSect = "CCCCCCCCC";
+
+    // Replace spaces in gameName with underscores 
+    std::replace(gameName.begin(), gameName.end(), ' ', '_');
+
+    //fill in gameNameSect according to gameName length
+    int len = gameNameSect.length();
+    if(gameName.length() > len){
+        gameName = gameName.substr(0, len);
+    }
+    else if(gameName.length() < len){
+        int leftover = len - gameName.length();
+        gameName.append(leftover, '_');
+    }
+
+    // Replace spaces in buyerUsername with underscores 
+    std::replace(buyerUsername.begin(), buyerUsername.end(), ' ', '_');
+
+    //fill in buyerNameSect according to buyerUsername length
+    len = buyerNameSect.length();
+    if(buyerUsername.length() > len){
+        buyerUsername = buyerUsername.substr(0, len);
+    }
+    else if(buyerUsername.length() < len){
+        int leftover = len - buyerUsername.length();
+        buyerUsername.append(leftover, '_');
+    }
+
+    // Replace spaces in sellerUsername with underscores 
+    std::replace(sellerUsername.begin(), sellerUsername.end(), ' ', '_');
+
+    //fill in sellerNameSect according to sellerUsername length
+    len = sellerNameSect.length();
+    if(sellerUsername.length() > len){
+        sellerUsername = sellerUsername.substr(0, len);
+    }
+    else if(sellerUsername.length() < len){
+        int leftover = len - sellerUsername.length();
+        sellerUsername.append(leftover, '_');
+    }
+
+    // fill in gamePriceSect according to gamePrice length
+    len = gamePriceSect.length();
+    std::string gamePriceString = std::to_string(gamePrice);
+
+    // "." found in gamePrice amount
+    if (gamePriceString.find('.') == std::string::npos){
+        gamePriceString.append(".00");
+    }
+
+    if(gamePriceString.length() > len){
+        gamePriceString = gamePriceString.substr(0, len);
+    }
+    else if (gamePriceString.length() < len){
+            int leftover = len - gamePriceString.length();
+            gamePriceString.append(leftover, '0');
+    }
+    
+    // Entry that will be added to end of Daily Transactions File
+    std::string entry = (transactionCode + "_" + gameName + "_" + sellerUsername + "_" + buyerUsername + "_" + gamePriceString);
+
+    // Open the file in append mode
+    std::ofstream outputFile("dailytransactions.txt", std::ios::app);
+
+    // Check if the file was opened successfully
+    if (outputFile.is_open()) {
+        // Append content to the file
+        outputFile << entry << "\n";
+
+        // Close the file
+        outputFile.close();
+    } else {
+        std::cerr << "Failed to open dailytransactions.txt for writing.\n";
+    }
+
+}
 
 
 // Create an entry for Daily Transaction File for refund
