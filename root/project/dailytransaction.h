@@ -16,13 +16,8 @@ class DailyTransaction
         // Function to grab the SellerUserName
         std::string recordSellerUsername();
 
-        // create FileRefund
-        std::string createFileRefund(char transactionCode, std::string buyerUsername, std::string sellerUsername, int credit);
-
-        // create FileSell
+        void createRefundEntry(std::string transactionCode, std::string buyerUsername, std::string sellerUsername, double credit);
         void createSellEntry(std::string transactionCode, std::string gameName, std::string username, double gamePrice);
-
-        // create FileSell
         void createEntry(std::string transactionCode, std::string username, std::string userType, double credit);
 
 }; // end DailyTransaction

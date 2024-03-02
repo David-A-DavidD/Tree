@@ -5,14 +5,17 @@
 #include <fstream> 
 #include <iostream>
 
-/*
+
 int main(){
+
+    DailyTransaction dt;
 
     // createEntry("01", "test_user", "FS", 145);
     // createSellEntry("03", "Fifa 24", "test_user", 79.99);
+    dt.createRefundEntry("05", "buyer user", "seller user", 78);
     return 0;
 }
-*/
+
 
 
 
@@ -30,14 +33,85 @@ std::string recordSellerUsername(){
     return sellerUserName;
 }//end recordBuyerUsername
 
-std::string createFileRefund(char transactionCode, std::string buyerUsername, std::string sellerUsername, int credit){
-    //Creates the file to return a refund
-    std::cout << "100 dollars refunded" << std::endl;
-    return "100 dollars refunded";
+
+// Create an entry for Daily Transaction File for refund
+// format:  XX_UUUUUUUUUUUUUUU_SSSSSSSSSSSSSSS_CCCCCCCCC
+    // where:	
+    // XX is a two-digit transaction code: 05-refund.
+    // UUUUUUUUUUUUUUU is the buyer’s username
+    // SSSSSSSSSSSSSSS is the seller’s username
+    // CCCCCCCCC is the refund credit
+    // _ is a space
+void DailyTransaction::createRefundEntry(std::string transactionCode, std::string buyerUsername, std::string sellerUsername, double credit){
+    
+    std::string buyerNameSect = "UUUUUUUUUUUUUUU";
+    std::string sellerNameSect = "SSSSSSSSSSSSSSS";
+    std::string refundSect = "CCCCCCCCC";
+
+    // Replace spaces in buyerUsername with underscores 
+    std::replace(buyerUsername.begin(), buyerUsername.end(), ' ', '_');
+
+    //fill in buyerNameSect according to buyerUsername length
+    int len = buyerNameSect.length();
+    if(buyerUsername.length() > len){
+        buyerUsername = buyerUsername.substr(0, len);
+    }
+    else if(buyerUsername.length() < len){
+        int leftover = len - buyerUsername.length();
+        buyerUsername.append(leftover, '_');
+    }
+
+    // Replace spaces in sellerUsername with underscores 
+    std::replace(sellerUsername.begin(), sellerUsername.end(), ' ', '_');
+
+    //fill in sellerNameSect according to sellerUsername length
+    len = sellerNameSect.length();
+    if(sellerUsername.length() > len){
+        sellerUsername = sellerUsername.substr(0, len);
+    }
+    else if(sellerUsername.length() < len){
+        int leftover = len - sellerUsername.length();
+        sellerUsername.append(leftover, '_');
+    }
+
+    // fill in refundSect according to credit length
+    len = refundSect.length();
+    std::string creditString = std::to_string(credit);
+
+    // "." found in credit amount
+    if (creditString.find('.') == std::string::npos){
+        creditString.append(".00");
+    }
+
+    if(creditString.length() > len){
+        creditString = creditString.substr(0, len);
+    }
+    else if (creditString.length() < len){
+            int leftover = len - creditString.length();
+            creditString.append(leftover, '0');
+    }
+    
+    // Entry that will be added to end of Daily Transactions File
+    std::string entry = (transactionCode + "_" + buyerUsername + "_" + sellerUsername + "_" + creditString);
+
+    // Open the file in append mode
+    std::ofstream outputFile("dailytransactions.txt", std::ios::app);
+
+    // Check if the file was opened successfully
+    if (outputFile.is_open()) {
+        // Append content to the file
+        outputFile << entry << "\n";
+
+        // Close the file
+        outputFile.close();
+    } else {
+        std::cerr << "Failed to open dailytransactions.txt for writing.\n";
+    }
+
 }
 
 
-// Create an entry for Daily Transaction File for create, delete, add_credit, logout
+// Create an entry for Daily Transaction File for sell
 // format:  XX_IIIIIIIIIIIIIIIIIII_SSSSSSSSSSSSS_PPPPPP
     // where:	
     // XX is a two-digit transaction code: 03-sell.
@@ -77,11 +151,11 @@ void DailyTransaction::createSellEntry(std::string transactionCode, std::string 
         username.append(leftover, '_');
     }
 
-    // fill in creditSect according to credit length
+    // fill in gamePriceSect according to gamePrice length
     len = gamePriceSect.length();
     std::string gamePriceString = std::to_string(gamePrice);
 
-    // "." found in credit amount
+    // "." found in gamePrice amount
     if (gamePriceString.find('.') == std::string::npos){
         gamePriceString.append(".00");
     }
