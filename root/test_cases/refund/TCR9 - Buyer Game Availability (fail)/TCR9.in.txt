@@ -1,6 +1,6 @@
 login
-<admin username>
+test user
 refund
-<valid buyer username>
-<valid seller username>
-<invalid game name>
+test user2
+justin
+fortnite

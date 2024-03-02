@@ -1,2 +1,2 @@
-$<valid refund amount> has been sent to <buyer>'s account. 
+$80 has been sent to test_user2's account. 
 Refund successful.

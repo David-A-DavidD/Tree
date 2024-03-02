@@ -1,4 +1,4 @@
 login
-<admin username>
+test user
 refund
-<invalid buyer username>
+justin

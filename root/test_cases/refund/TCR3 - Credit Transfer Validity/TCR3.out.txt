@@ -1,1 +1,1 @@
-Error - Price must be equal to selling price of <game name>.
+Error - Price must be equal to selling price of modern_warfare

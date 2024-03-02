@@ -1,1 +1,2 @@
-Error. You do not have the privileges to process refunds.
+Error - Unrecognized Command
+Note: transaction codes MUST be all lowercase (ex: login, buy, etc.), please try again.

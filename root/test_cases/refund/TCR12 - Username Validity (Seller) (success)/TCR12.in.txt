@@ -1,5 +1,5 @@
 login
-<admin username>
+test user
 refund
-<valid buyer username>
-<valid seller username>
+test user2
+justin

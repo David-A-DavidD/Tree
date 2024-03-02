@@ -1,2 +1,2 @@
-Sorry, <username> is not authorized to sell games.
+Sorry, test user2 is not authorized to sell games.
 Please enter a valid seller username.

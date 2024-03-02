@@ -1,7 +1,7 @@
 login
-<admin username>
+test user
 refund
-<valid buyer username>
-<valid seller username>
-<valid game name>
-<valid refund amount>
+test user2
+justin
+modern warfare
+80

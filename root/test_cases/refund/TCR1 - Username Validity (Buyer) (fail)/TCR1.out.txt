@@ -1,2 +1,2 @@
-Sorry, <username> did not purchase this game.
+Sorry, justin did not purchase this game.
 A refund cannot be performed. Please enter a valid buyer's username.
