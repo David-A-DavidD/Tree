@@ -1,4 +1,0 @@
-login
-<existing username>
-logout
-<invalid transaction code>

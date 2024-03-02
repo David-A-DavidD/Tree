@@ -1,2 +1,1 @@
-You are not logged into an account!
-Please login to an account.
+Error - please type login to log into your account.
