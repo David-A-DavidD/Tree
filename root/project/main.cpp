@@ -6,8 +6,10 @@
 #include "admin.h"
 #include "currentusers.h"
 #include "dailytransaction.h"
+#include "availablegames.h"
 
-// Compile command: g++ main.cpp user.cpp admin.cpp -o main && ./main
+
+// Compile command: g++ main.cpp user.cpp currentusers.cpp availablegames.cpp dailytransaction.cpp  admin.cpp -o main && ./main
 
 int main() 
 {
@@ -18,6 +20,7 @@ int main()
     std::string command;
 
     DailyTransaction dtf;
+    AvailableGames availableGamesFile;
 
     bool isLoggedIn = false;
 
@@ -126,14 +129,15 @@ int main()
             }
         }else if (currentUser.transactionCode == "logout")
         {
+            dtf.createEntry("00", currentUser.username, currentUser.role, currentUser.balance);
             std::cout << "Logging out of " << currentUser.username << "'s account...";
 
-            dtf.createEntry("00", currentUser.username, currentUser.role, currentUser.balance);
             break; //breaks out of loop to end session
         }else if (currentUser.transactionCode == "sell" && (currentUser.role == "AA" || currentUser.role == "SS"))
         {
             std::string gameInput;
             double sellingPrice;
+            bool onSale = false;
 
             std::cout << "What game would you like to sell? ";
             std::cin.ignore(); // Clear the input buffer
@@ -156,15 +160,42 @@ int main()
             std::cin >> sellingPrice; //get input
             std::cin.ignore(); // Clear the input buffer
 
-            currentUser.sell(gameInput, sellingPrice);
-            dtf.createSellEntry("03", gameInput, currentUser.username, sellingPrice);
+            if (sellingPrice > 999.99)
+            {
+                std::cout << "Error - Game price must be 999.99 or less" << std::endl;
+            } 
+
+            if (gameInput.length() <= 25 && sellingPrice <= 999.99)
+            {
+                onSale = currentUser.sell(gameInput, sellingPrice);
+                if (onSale)
+                {
+                    availableGamesFile.createEntry(gameInput, currentUser.username, sellingPrice);
+                    dtf.createSellEntry("03", gameInput, currentUser.username, sellingPrice);
+                }
+            }
+
+        }else if (currentUser.transactionCode == "refund" && (currentUser.role == "AA"))
+        {
+            std::string sellerUsername;
+            std::string buyerUsername;
+            int credit;
+
+            std::cout << "What is the buyer username? ";
+            std::cin >> buyerUsername; //get input
+            std::cin.ignore(); // Clear the input buffer
+
+            std::cout << "What is the seller username? ";
+            std::cin >> sellerUsername; //get input
+            std::cin.ignore(); // Clear the input buffer
+
+            
 
         }else
         {
              //Output for errors in transaction command input
             std::cout << "Error - Unrecognized Command" << std::endl;
             std::cout << "Note: transaction codes MUST be all lowercase (ex: login, buy, etc.), please try again." << std::endl;
-            std::cout << currentUser.role << std::endl;
         }
     }
     return 0;

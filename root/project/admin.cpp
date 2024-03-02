@@ -120,7 +120,7 @@ bool Admin::isGameAvailable(const std::string& gameName, const std::vector<std::
 }
 
 
-void Admin::sell(std::string gameName, int price) {
+bool Admin::sell(std::string gameName, double price) {
     // Load available games from file
     std::ifstream file("availablegames.txt");
     std::vector<std::string> availableGames;
@@ -132,10 +132,12 @@ void Admin::sell(std::string gameName, int price) {
 
     // Check if the game is available for sale
     if (isGameAvailable(gameName, availableGames)) {
+        std::cout << "Error - " << gameName << " is already on sale." << std::endl;
+        return false;
+    } else 
+    {
         std::cout << gameName << " has been put up for sale for $" << price << "." << std::endl;
-        // TODO: Add code here to update the available games file with the new game for sale
-    } else {
-        std::cout << "Error - Game '" << gameName << "' is not available for sale." << std::endl;
+        return true;
     }
 }
 
