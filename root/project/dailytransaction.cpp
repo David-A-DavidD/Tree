@@ -13,12 +13,10 @@ int main(){
     // dt.createEntry("01", "test_user", "FS", 145);
     // dt.createSellEntry("03", "Fifa 24", "test_user", 79.99);
     // dt.createRefundEntry("05", "buyer user", "seller user", 78);
-    dt.createBuyEntry("04", "fifa25", "seller_user", "buyer user", 90);
+    // dt.createBuyEntry("04", "fifa25", "seller_user", "buyer user", 90);
+    dt.clearEntries();
     return 0;
 }
-
-
-
 
 //Function note complete but will grab the username
 std::string recordBuyerUsername(){
@@ -33,6 +31,13 @@ std::string recordSellerUsername(){
     std::string sellerUserName = "placeholder";
     return sellerUserName;
 }//end recordBuyerUsername
+
+// Erase all content from Daily Transaction File
+void DailyTransaction::clearEntries(){
+    std::ofstream file("dailytransactions.txt", std::ofstream::out | std::ofstream::trunc); // Open the file in truncate mode
+
+    file.close();
+}
 
 
 // Create an entry for Daily Transaction File for buy

@@ -30,6 +30,7 @@ int main()
         if (command == "login")
         {
             // Calling login function
+            dtf.clearEntries();
             user.login();
             isLoggedIn = true;
         } else
