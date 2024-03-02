@@ -29,7 +29,6 @@ void User::login() {
         {
             checkPerms(username);
             setUsername(username);
-            std::cout << "User is logged in." << std::endl;
             break;
         }
     }
@@ -81,34 +80,26 @@ void User::checkPerms(std::string username)
             }
             userType = line.substr(16, 2); // UserType starts from index 17 and is 2 characters long
             if (user == username) {
-                std::cout << "Checking permission for the user: " << username << std::endl;
                 if (userType == "AA") 
                 {
-                    std::cout << "User has Admin privileges" << std::endl;
                     User::setUsertype("AA");
 
                 } else if (userType == "FS")
                 {
-                    std::cout << "User has Full-Standard privileges" << std::endl;
                     User::setUsertype("FS");
 
                 } else if (userType == "BS") 
                 {
-                    std::cout << "User has Buy-Standard privileges" << std::endl;
                     User::setUsertype("BS");
 
                 } else if (userType == "SS") 
                 {
-                    std::cout << "User has Sell-Standard privileges" << std::endl;
                     User::setUsertype("SS");
-                } else 
-                {
-                    std::cout << "Unknown user type" << std::endl;
-                }
+                } 
                 return; // User found and permissions checked, exit the function
             }
         }
-        std::cout << "User not found in the records" << std::endl;
+        std::cout << "User not found in current users file." << std::endl;
         file.close();
     } else {
         std::cerr << "Unable to open file" << std::endl;

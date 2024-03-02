@@ -52,22 +52,18 @@ int main()
 
     if (user.getUsertype() == "AA")
     {
-        std::cout << "Setting Role to AA." << std::endl;
         currentUser.role = "AA";
     
     } else if (user.getUsertype() == "FS") 
     {
-        std::cout << "Setting Role to FS." << std::endl;
         currentUser.role = "FS";
 
     } else if (user.getUsertype() == "BS") 
     {
-        std::cout << "Setting Role to BS." << std::endl;
         currentUser.role = "BS";
 
     } else if (user.getUsertype() == "SS") 
     {
-        std::cout << "Setting Role to SS." << std::endl;
         currentUser.role = "SS";
     } 
 
@@ -79,7 +75,7 @@ int main()
     //Possible TODO: perform checkPerms in each command condition to see if user can access it. If they aren't allowed, print error message?
     while (isLoggedIn == true) //infinite loop to keep user in the session
     {
-        std::cout << "Welcome " + currentUser.username + ". Please Enter a Transaction Command: ";
+        std::cout << "Welcome " << currentUser.username << " ("<< currentUser.role << "). Please Enter a Transaction Command: ";
         std::cin >> currentUser.transactionCode;
 
         if (currentUser.transactionCode == "list" && (currentUser.role == "AA" || currentUser.role == "FS" || currentUser.role == "SS" || currentUser.role == "BS"))
