@@ -42,12 +42,19 @@ int main(){
 std::string getGameName(const std::string fileName){
     //Function will grab the gamename from the appropriate file
     std::string gameName =fileName;
+    if (fileName.empty()){
+        return "";
+    }
 
     return gameName;
 }//end getGameName
 
 std::string getUserName(){
     std::string userName = "Placeholder";
+
+    if (userName.empty()){
+        return "";
+    }
 
     return  userName;
 }//end getUserName()
@@ -60,7 +67,12 @@ std::array<std::string, 2> createEntry(const std::string time,const std::string 
    std::cout << "Enter the name for your game" << std::endl;
    std::cin >> gameName;
 
-   
+    if (gameName.empty()) {
+        std::cout << "Invalid game name. The game name cannot be empty." << std::endl;
+        std::cout << "Please try again." << std::endl;
+
+        std::cin >> gameName;
+    }
 
     //Now make an array to return the new entry
     std::array<std::string, 2> Entry;
