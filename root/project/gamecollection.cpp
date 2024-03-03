@@ -98,20 +98,17 @@ std::string createGamesCollectionFile(const std::string& gameName, const std::st
     const int length =42;
     //now get the length for the gameName
     const int gameNameCount = gameName.length();
-    //Now fine the length for the ownerUserName
+    //Now find the length for the ownerUserName
     const int ownerUserNameCount =ownerUserName.length();
-
-
-    //Now 
-    // int gameNameFills = gameNameCount < length ? length - gameNameCount - ownerUserNameCount : 0;
-    // int ownerUserNameFills = ownerUserNameCount < length ? length - ownerUserNameCount : 0;
+    //Find how much padding is required
     int addPadds = length -gameNameCount - ownerUserNameCount;
-
+    //Write to the file
     outFile << gameName;
-   
+    //Insert the padding
     for(int i=0; i < addPadds; i++){
         outFile << "_";
     }
+    //Write to File
     outFile << ownerUserName <<std::endl;
 
     // Close the file
