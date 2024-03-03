@@ -3,19 +3,21 @@
 
 #include <string>
 
+#include "user.h"
+
 // Class meant to represent an instance of a full standard user
-class FullStandard {
+class FullStandard : public User {
     // Variables associated with a full standard user
    public:
     std::string transactionCode;
-    std::string username;  // Will come from User class
-    int balance;           // Will come from User class
-};
+    // std::string username;  // Will come from User class
+    // int balance;           // Will come from User class
 
-// Method declarations - see cpp file for more info
-void addCredit(int credit, int &userAccount);
-std::string buy(std::string gameName, std::string sellerUsername);
-void list();
-std::string sell(std::string gameName, int price);
+    // Method declarations - see cpp file for more info
+    void addCredit(int credit, int &userAccount);
+    std::string buy(std::string gameName, std::string sellerUsername);
+    void list();
+    std::string sell(std::string gameName, int price);
+};
 
 #endif

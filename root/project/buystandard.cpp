@@ -1,8 +1,10 @@
-#include <iostream>
-#include <ctime>
-#include <string>
-#include <fstream>
 #include "buystandard.h"
+
+#include <ctime>
+#include <fstream>
+#include <iostream>
+#include <string>
+
 #include "user.h"
 /*
     This class and file represents an instance of a user with Buy-Standard privileges.
@@ -18,45 +20,41 @@
     its related children to save, write, or read any external files.
 */
 
-//This method is used to give a predetermined credit amount and add it to the logged in user's account
-void BuyStandard::addCredit(int credit, int &userAccount)
-{
+// This method is used to give a predetermined credit amount and add it to the logged in user's account
+void BuyStandard::addCredit(int credit, int &userAccount) {
     userAccount += credit;
 }
 
-//This method is used to put a game from an associated seller in the curren user accounts file
-std::string buy(std::string gameName, std::string sellerUsername)
-{
-    //TODO: - Deduct game price from buyer balance
-    //      - Credit seller with game price
-    //      - Add game to user's game collection file
-    //      - Save transaction to daily transaction file
+// This method is used to put a game from an associated seller in the curren user accounts file
+std::string buy(std::string gameName, std::string sellerUsername) {
+    // TODO: - Deduct game price from buyer balance
+    //       - Credit seller with game price
+    //       - Add game to user's game collection file
+    //       - Save transaction to daily transaction file
 
-    return "04 gameName sellerUsername username gamePrice"; //Return code for buy transaction
+    return "04 gameName sellerUsername username gamePrice";  // Return code for buy transaction
 }
 
-//This method is used to list all games available in the available games file
-void BuyStandard::list()
-{
-    //TODO: Iterate through available games file and display all relevant details
-    // Open the file
+// This method is used to list all games available in the available games file
+void BuyStandard::list() {
+    // TODO: Iterate through available games file and display all relevant details
+    //  Open the file
     std::ifstream file("availablegames.txt");
-    
+
     // Check if file is open successfully
     if (!file.is_open()) {
         std::cerr << "Error opening file: availablegames.txt" << std::endl;
         return;
     }
-    
-    
-    std::cout << "Game Name\t\t   Owner\t   Price" <<std::endl;
+
+    std::cout << "Game Name\t\t   Owner\t   Price" << std::endl;
     std::cout << "-------------------------------------------------" << std::endl;
     // Read and display each line
     std::string line;
     while (std::getline(file, line)) {
         std::cout << line << std::endl;
     }
-    
+
     // Close the file
     file.close();
 }
@@ -64,7 +62,7 @@ void BuyStandard::list()
 int main()
 {
     //Variables
-    BuyStandard user; 
+    BuyStandard user;
     int creditInput;
     std::string gameInput;
     std::string sellerInput;
@@ -102,7 +100,7 @@ int main()
         {
             std::cout << "How much credit would you like to add? ";
             std::cin >> creditInput; //get input
-            
+
             if (creditInput < 0 || creditInput > 1000)
             {
                 std::cout << "Error - Invalid Credit Amount" << std::endl;

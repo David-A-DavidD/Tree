@@ -2,9 +2,11 @@
 #include "admin.h"
 
 #include <ctime>
+#include <fstream>
 #include <iostream>
 #include <string>
-#include <fstream>
+
+#include "user.h"
 
 /* This admin file may not be fully functional as certain functions and function calls are commented out due to functionality issues.
 // This files functionality is mostly commented out and may not be an executable.
@@ -32,21 +34,21 @@
 void Admin::list() {
     // Open the file
     std::ifstream file("availablegames.txt");
-    
+
     // Check if file is open successfully
     if (!file.is_open()) {
         std::cerr << "Error opening file: availablegames.txt" << std::endl;
         return;
     }
-    
-    std::cout << "Game Name\t\t   Owner\t   Price" <<std::endl;
+
+    std::cout << "Game Name\t\t   Owner\t   Price" << std::endl;
     std::cout << "-------------------------------------------------" << std::endl;
     // Read and display each line
     std::string line;
     while (std::getline(file, line)) {
         std::cout << line << std::endl;
     }
-    
+
     // Close the file
     file.close();
 }
@@ -55,28 +57,30 @@ void Admin::list() {
 void Admin::listActive() {
     // Open the file
     std::ifstream file("currentusers.txt");
-    
+
     // Check if file is open successfully
     if (!file.is_open()) {
         std::cerr << "Error opening file: currentusers.txt" << std::endl;
         return;
     }
-    
-    std::cout << "User Name\tUser Type\tCredit" <<std::endl;
+
+    std::cout << "User Name\tUser Type\tCredit" << std::endl;
     std::cout << "-------------------------------------------------" << std::endl;
     // Read and display each line
     std::string line;
     while (std::getline(file, line)) {
         std::cout << line << std::endl;
     }
-    
+
     // Close the file
     file.close();
 }
 
 // Method to allow the admin to create another user on the system
 
-void create(std::string username, std::string accountType) {
+void create() {  // MOVED variable declarations outside of function definition
+    std::string username;
+    std::string accountType;
     std::cout << "Enter the new username: " << std::endl;
     std::cin >> username;
 
@@ -91,7 +95,8 @@ void create(std::string username, std::string accountType) {
 }
 
 // Method to allow the admin to delete an existing user on the system
-void deleteUser(std::string existingUsername) {
+void deleteUser() {  // MOVED variable declarations outside of function definition
+    std::string existingUsername;
     std::cout << "Enter the  username: " << std::endl;
     std::cin >> existingUsername;
     std::cout << "Deleting user with username: " << existingUsername << std::endl;
@@ -119,7 +124,6 @@ bool Admin::isGameAvailable(const std::string& gameName, const std::vector<std::
     return false;
 }
 
-
 bool Admin::sell(std::string gameName, double price) {
     // Load available games from file
     std::ifstream file("availablegames.txt");
@@ -134,8 +138,7 @@ bool Admin::sell(std::string gameName, double price) {
     if (isGameAvailable(gameName, availableGames)) {
         std::cout << "Error - " << gameName << " is already on sale." << std::endl;
         return false;
-    } else 
-    {
+    } else {
         std::cout << gameName << " has been put up for sale for $" << price << "." << std::endl;
         return true;
     }
@@ -170,16 +173,14 @@ void refund(std::string buyerUsername, std::string sellerUsername, int credit) {
 }
 
 // Method that lets the user add a specified amount of credit to the specified account username
-void Admin::addCredit(int credit, int &userAccount) {
-    if (role == "AA")
-    {
+void Admin::addCredit(int credit, int& userAccount) {
+    if (role == "AA") {
         std::cout << "Enter the amount of credit to transfer: " << std::endl;
         std::cin >> credit;
         std::cout << "Enter the username where credit is being added: " << std::endl;
         std::cin >> userAccount;
         std::cout << "Adding credit: " << credit << "to user account: " << userAccount << std::endl;
-    } else
-    {
+    } else {
         userAccount += credit;
     }
     // TODO: implement logic to let user add specified amount of credit to the specified account username
