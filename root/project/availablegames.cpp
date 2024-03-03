@@ -85,12 +85,3 @@ void AvailableGames::createEndUser(){
     std::string entry = "END________________________________________000000";
 
 }
-
-int main(){
-
-    //TODO: main body
-    AvailableGames agFile;
-    agFile.createEntry("modern warfare", "michael", 80);
-
-    return 0;
-}
