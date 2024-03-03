@@ -75,7 +75,7 @@ int main() {
             currentUser.list();
         } else if (currentUser.transactionCode == "listactive" && currentUser.role == "AA") {
             currentUser.listActive();
-        } else if (currentUser.transactionCode == "buy" && (currentUser.role == "AA" || currentUser.role == "BS")) {
+        } else if (currentUser.transactionCode == "buy" && (currentUser.role == "AA" || currentUser.role == "BS" || currentUser.role == "FS")) {
             std::string gameInput;
             std::string sellerInput;
 

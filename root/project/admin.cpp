@@ -156,6 +156,51 @@ void Admin::buyGame(std::string gameName, std::string sellerUsername) {
     // Add the new game to the user’s collection
     // TODO: implement logic to credit the seller with an amount equal to the game’s price and deduct that amount from the buyer
     // TODO: implement logic to should save this information to the daily transaction file
+
+    // load available games file to read
+    std::ifstream file("availablegames.txt");
+    std::vector<std::string> availableGames;
+    std::string line;
+    while (std::getline(file, line)) {
+        availableGames.push_back(line);
+    }
+    file.close();
+
+    // check if game available for purchase
+    auto check = std::find_if(availableGames.begin(), availableGames.end(), [&gameName, &sellerUsername](const std::string& game) {
+        // ensure these indexes account for what is stored in txt files
+        std::string entryGameName = game.substr(0, 25);
+        std::string entrySellerUsername = game.substr(25, 15);
+        return entryGameName == gameName && entrySellerUsername == sellerUsername;
+    });
+
+    // if no such game , throw error
+    if (check == availableGames.end()) {
+        std::cout << "Error, game not avaialblae or incorrectly read from file" << std::endl;
+        return;
+    }
+    // get game price from availablegames.txt file
+    double gamePrice = std::stod(check->substr(40));  // figure out if i can remove this
+
+    // add the new game to the user’s collection
+    // test
+    std::ofstream updateAvailableGamesFile("availablegames.txt");
+    for (const std::string& gameName : availableGames) {
+        updateAvailableGamesFile << gameName << "\n";
+    }
+    updateAvailableGamesFile.close();
+
+    // credit the seller with an amount equal to the game’s price and deduct that amount from the buyer )
+    // may have issue w/working
+    double sellerCredit;
+    sellerCredit += gamePrice;
+
+    // save this information to the daily transaction file
+    std::ofstream dailyTransactionFile("dailytransactions.txt", std::ios::app);
+    dailyTransactionFile << "Buy\t" << sellerUsername << "\t" << gameName << "\t" << gamePrice << "\n";
+    dailyTransactionFile.close();
+
+    std::cout << "Success! " << gameName << " has been added to your collection." << std::endl;
 }
 
 // function to check if a username exists in the user accounts / in the txt files (try reading dynamically if this doesnt work)
