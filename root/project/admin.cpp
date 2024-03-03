@@ -141,6 +141,7 @@ bool Admin::sell(std::string gameName, double price) {
     }
 }
 
+/*
 // Method to allow the user to purchase a game from the available games library
 void Admin::buyGame(std::string gameName, std::string sellerUsername) {
     std::cout << "Enter the  game name: " << std::endl;
@@ -198,6 +199,7 @@ void Admin::buyGame(std::string gameName, std::string sellerUsername) {
 
     std::cout << "Success! " << gameName << " has been added to your collection." << std::endl;
 }
+*/
 
 // function to check if a username exists in the user accounts / in the txt files (try reading dynamically if this doesnt work)
 bool isUserExist(const std::string& username, const std::vector<std::string>& userAccount) {
