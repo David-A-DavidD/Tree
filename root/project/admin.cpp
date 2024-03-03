@@ -1,6 +1,7 @@
 // including relevant libraries and classes
 #include "admin.h"
 
+#include <algorithm>  //to find if user exists
 #include <ctime>
 #include <fstream>
 #include <iostream>
@@ -157,8 +158,15 @@ void Admin::buyGame(std::string gameName, std::string sellerUsername) {
     // TODO: implement logic to should save this information to the daily transaction file
 }
 
+// function to check if a username exists in the user accounts / in the txt files (try reading dynamically if this doesnt work)
+bool isUserExist(const std::string& username, const std::vector<std::string>& userAccount) {
+    return std::find(userAccount.begin(), userAccount.end(), username) != userAccount.end();
+}
+
 // Method to allow the admin to refund a game from a buyer and credit the seller accordingly
-void refund(std::string buyerUsername, std::string sellerUsername, int credit) {
+void Admin::refund(std::string buyerUsername, std::string sellerUsername, int credit) {
+    std::string line;
+    std::vector<int> balances;
     std::cout << "Enter the buyer username: " << std::endl;
     std::cin >> buyerUsername;
     std::cout << "Enter the seller  username: " << std::endl;
@@ -167,9 +175,40 @@ void refund(std::string buyerUsername, std::string sellerUsername, int credit) {
     std::cin >> credit;
 
     std::cout << "Refunding game from buyer " << buyerUsername << "to seller: " << sellerUsername << "Amount of credit to transfer: " << credit << std::endl;
-    // TODO: implement logic to refund game
+    // TODO: implement logic to refund game MIGHT HAE TO CHANGE LOGIC
+    // load balances from available games.txt
+    std::ifstream availablegamesFile("availablegames.txt");
+
+    while (std::getline(availablegamesFile, line)) {
+        balances.push_back(std::stoi(line));
+    }
+    availablegamesFile.close();
+
+    // refunding causing errors
+    // userAccount += credit;
+    // userAccount += credit;
+
     // TODO: implement logic to transfer the specified amount of credit from the seller’s credit balance to the buyer’s credit balance.
+
+    // check if buyer and seller username exists
+    std::ifstream userAccountsFile("currentusers.txt");
+    std::vector<std::string> userAccount;
+
+    while (std::getline(userAccountsFile, line)) {
+        userAccount.push_back(line);  // each line of user account info stored as seperate string in vector (remove if needed)
+    }
+    userAccountsFile.close();
+
+    if (!isUserExist(buyerUsername, userAccount) || !isUserExist(sellerUsername, userAccount)) {
+        std::cerr << "Error - either the Buyer or Seller username does not exist" << std::endl;
+        return;
+    }
     // TODO: implement logic should save this information for the daily transaction file
+    std::ofstream dailyTransactionFile("dailytransactions.txt, std::ios::app");
+    dailyTransactionFile << "Refund\t" << buyerUsername << "\t" << sellerUsername << "\t" << credit << std::endl;
+    dailyTransactionFile.close();
+
+    std::cout << "Refunding the game" << buyerUsername << "to seller" << sellerUsername << "amount of credit transferred" << credit << std::endl;
 }
 
 // Method that lets the user add a specified amount of credit to the specified account username
