@@ -20,7 +20,7 @@ class Admin : public User {
     // Method declarations - see cpp file for more info
     void list();
     void listActive();
-    void create();  // MOVED variable declarations outside of function definition
+    void create(const std::string& username, const std::string& accountType);
     // std::string username, std::string accountType
     //  void deleteUser(std::string existingUsername); Update this in next phase for proper functionality
     bool sell(std::string gameName, double price);

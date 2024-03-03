@@ -14,6 +14,7 @@
 int main() {
     User user;
     Admin currentUser;
+    Admin admin;  // usage correct?
 
     std::string username;
     std::string command;
@@ -160,6 +161,20 @@ int main() {
             std::cout << "What is the seller username? ";
             std::cin >> sellerUsername;  // get input
             std::cin.ignore();           // Clear the input buffer
+        } else if (currentUser.transactionCode == "create" && currentUser.role == "AA") {
+            std::string username;
+            std::string accountType;
+
+            std::cout << "Enter the new username: " << std::endl;
+            std::cin >> username;
+
+            std::cout << "Enter the user type (Admin, FS, BS, SS): ";
+            std::cin >> accountType;
+
+            admin.create(username, accountType);  // calling from admin class has errors
+
+            dtf.createEntry("01", username, accountType, 0);  // Assuming initial credit is 0 for simplicity
+            std::cout << "Success! User " << username << " with type " << accountType << " has been created." << std::endl;
 
         } else {
             // Output for errors in transaction command input

@@ -7,6 +7,7 @@ class User {
    public:
     std::string username;  // declare as member variable
     std::string usertype;
+    std::string accountType;
     int balance = 0;
 
     void login();
@@ -17,6 +18,8 @@ class User {
     std::string getUsertype();
     std::string getUsername();
     int getBalance();
+
+    // need user Constructor
 };
 
 #endif

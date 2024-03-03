@@ -79,20 +79,16 @@ void Admin::listActive() {
 
 // Method to allow the admin to create another user on the system
 
-void create() {  // MOVED variable declarations outside of function definition
-    std::string username;
-    std::string accountType;
-    std::cout << "Enter the new username: " << std::endl;
-    std::cin >> username;
-
+void Admin::create(const std::string& username, const std::string& accountType) {  // MOVED variable declarations outside of function definition
+                                                                                   // causing errors  User newUser(username, accountType);
     // TODO: implement logic to create a new user and accountType
 
-    // asking for user type
-    std::cout << "Enter the user type (Admin, FS, BS, SS): " << std::endl;
-    std::cin >> accountType;
+    // // asking for user type
+    // std::cout << "Enter the user type (Admin, FS, BS, SS): " << std::endl;
+    // std::cin >> accountType;
 
-    std::cout << "Creating a new user with username: " << username << "and account type: " << accountType << std::endl;
-    // TODO: implement logic to record this in daily transaction file
+    // std::cout << "Creating a new user with username: " << username << "and account type: " << accountType << std::endl;
+    // // TODO: implement logic to record this in daily transaction file
 }
 
 // Method to allow the admin to delete an existing user on the system
