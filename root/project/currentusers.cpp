@@ -71,10 +71,3 @@ void CurrentUsers::createEndUser() {
 
     std::string fileName = "currentusers.txt";
 }
-
-int main() {
-    CurrentUsers cuFile;
-    cuFile.createEntry("mc   555", "AA", 1234.57);
-
-    return 0;
-}
