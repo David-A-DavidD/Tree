@@ -7,13 +7,13 @@ g++ ../../project/main.cpp ../../project/user.cpp ../../project/currentusers.cpp
 if [ $? -eq 0 ]; then
 
     # Run the program with input file and save output to a file
-    ../../project/main < "../../test_cases/create/TCCR9 - full-standard user type selection/TCCR9.in.txt" > "../../scripts/create/outputTCCR9.txt"
+    ../../project/main < "../../test_cases/delete/TCD10 - username deletion and game deletion check/TCCR19.in.txt" > "../../scripts/create/outputTCD10.txt"
 
     # Check if program execution was successful
     if [ $? -eq 0 ]; then
         echo "Program executed successfully."
         # Compare output with expected output
-        diff -q "../../scripts/create/outputTCCR9.txt" "../../test_cases/create/TCCR9 - full-standard user type selection/TCCR9.out.txt"
+        diff -q "../../scripts/delete/outputTCD10.txt" "../../test_cases/delete/TCD10 - username deletion and game deletion check/TCD10.out.txt"
         if [ $? -eq 0 ]; then
             echo "Output matches expected output."
         else
