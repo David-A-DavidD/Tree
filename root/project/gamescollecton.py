@@ -50,18 +50,19 @@ def createEndUser():
     #Open the file
     with open(file, 'a') as outFile:  #Use 'a' to append to the file
         #Write to the file with the new entry
+        print(endUser)
         return outFile.write(endUser + "\n") 
 
 
 #Get GameName
-def getGameName(filePath):
+def getGameName(fileName):
     pattern="GameName:"
     #Make a list to append the game Name later
     gameName=[]
     #initiate a try
     try:
         #open the file
-        with open(filePath, 'r') as file:
+        with open(fileName, 'r') as file:
             #loop through the file lines
             for i in file:
                 #Look for the pattern
@@ -84,14 +85,14 @@ def getGameName(filePath):
 
 
 #Get UserName
-def getUserName(filePath):
+def getUserName(fileName):
     pattern="UserName:"
     #Make a list to append the game Name later
     userName=[]
     #initiate a try
     try:
         #open the file
-        with open(filePath, 'r') as file:
+        with open(fileName, 'r') as file:
             #loop through the file lines
             for i in file:
                 #Look for the pattern
@@ -111,6 +112,8 @@ def getUserName(filePath):
     return userName
 
 
+
+
 #Read the file in a function
 def readFile(fileName):
     #Make a variable to store file contents
@@ -127,9 +130,47 @@ def readFile(fileName):
     return fileStore
 
 #Function to remove a file entry
-# def removeEntry(time, )
-    
+def removeEntry(time, ownerUsername):
+    #Select the file
+    fileNow ='gamescollectionfile.txt'
+    #lines you will keep in the file
+    keptLines=[]
+    #boolean to remove lines
+    removed = False
+    #try statement to start
+    try:
+        #open the file and read it
+        with open(fileNow,'r') as file:
+            #loop through the file
+            for i in file:
+                #See if its not the correct username and time
+                if ownerUsername not in i or time not in i:
+                    #Append to the kept lines
+                    keptLines.append(i)
+                #check if the username and timestamp are there to remove the file line
+                else:
+                    removed=True
+        #add the kept lines back to the file
+        with open(fileNow, 'w') as file:
+            file.writelines(keptLines)
+    #test to make sure it runs
+    except FileNotFoundError:
+        print("Cannot fine file.")
+        return False
 
-    
 
 
+#Values to test run code
+gametitle="Halo3"
+ownerUserName="Hugh"
+createEntry(gametitle,ownerUserName)
+createEndUser()
+filepath='gamescollectionfile.txt'
+getGameName(filepath)
+filepath='gamescollectionfile.txt'
+getUserName(filepath)
+filepath='gamescollectionfile.txt'
+readFile(filepath)
+time ="5:00am"
+Owner="Bob"
+removeEntry(time,Owner)
