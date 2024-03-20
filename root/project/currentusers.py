@@ -145,10 +145,10 @@ class CurrentUser:
                                 print(f"Balance for {originalUsername} decreased to {newCredit}.")
                                 return
                             else:
-                                errorLog.logConstraint("Constraint", "buy", "User will have negative balance")
+                                errorLog.logConstraint("Constraint", "buy/refund", "User will have negative balance")
                                 return
                     else:
-                        errorLog.logConstraint("Constraint", "buy", "User does not exist in file")
+                        errorLog.logConstraint("Constraint", "buy/refund", "User does not exist in file")
             except IOError:
                 errorLog.logFatal("Fatal", filepath, "Cannot open file for reading/writing")
         else:
@@ -187,8 +187,14 @@ class CurrentUser:
     def performTransactions():
         filepath = "dailytransactions.txt"
 
-        with open(filepath, 'r') as file:
-            lines = file.readlines()  # Read all lines
+        if os.path.exists(filepath):
+            try:
+                with open(filepath, 'r') as file:
+                    lines = file.readlines()  # Read all lines
+            except IOError:
+                errorLog.logFatal("Fatal", filepath, "Cannot open file for reading/writing")
+        else:
+            errorLog.logFatal("Fatal", filepath, "File does not exist")
 
         # Iterate over each line
         for line in lines:
