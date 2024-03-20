@@ -6,9 +6,6 @@ import errorLog
 #that would occur to the current users file (namely refund, addcredit, create, and delete).
 #This file also utilizes the errorLog.py file to log any potential errors that can occur.
 
-#TODO
-# - Read from DTF and apply methods to currentusers.txt accordingly
-
 # * Note: cd into project folder before running *
 
 class CurrentUser:
@@ -64,6 +61,7 @@ class CurrentUser:
         try:
             with open(filepath, 'a') as outputFile:
                 outputFile.write(entry)
+                print("Account Created!")
         except IOError:
             errorLog.logFatal("Fatal", filepath, "Cannot open file for writing")
 
@@ -88,6 +86,9 @@ class CurrentUser:
     #This method is used to increase the credit of the provided username in the file. This is meant to be called when an 'addcredit', sale from a 'buy' or 'refund' transaction is read from the DTF
     def increaseBalance(username, credit):
         filepath = "currentusers.txt"
+        originalUsername = username #Store original username prior to formatting (for console outputs)
+        originalUsername = originalUsername.replace('_', ' ')
+        originalUsername = originalUsername.rstrip()
         username = username.replace(' ', '_') #Replace any spaces in the username with underscores to fit file structure
         if os.path.exists(filepath):
             try:
@@ -106,7 +107,7 @@ class CurrentUser:
                             inputFile.seek(0)
                             inputFile.writelines(lines)
                             inputFile.truncate()
-                            print(f"Balance for {username} increased to {new_credit}.")
+                            print(f"Balance for {originalUsername} increased to {new_credit}.")
                             return
                     else:
                         errorLog.logConstraint("Constraint", "refund/addcredit/buy", "User does not exist in file")
@@ -118,6 +119,9 @@ class CurrentUser:
     #This method is used to decrease the credit of the provided username in the file. This is meant to be called when a 'buy' transaction is read from the DTF
     def decreaseBalance(username, credit):
         filepath = "currentusers.txt"
+        originalUsername = username #Store original username prior to formatting (for console outputs)
+        originalUsername = originalUsername.replace('_', ' ')
+        originalUsername = originalUsername.rstrip()
         username = username.replace(' ', '_') #Replace any spaces in the username with underscores to fit file structure
         if os.path.exists(filepath):
             try:
@@ -138,7 +142,7 @@ class CurrentUser:
                                 inputFile.seek(0)
                                 inputFile.writelines(lines)
                                 inputFile.truncate()
-                                print(f"Balance for {username} decreased to {newCredit}.")
+                                print(f"Balance for {originalUsername} decreased to {newCredit}.")
                                 return
                             else:
                                 errorLog.logConstraint("Constraint", "buy", "User will have negative balance")
@@ -154,6 +158,8 @@ class CurrentUser:
     def removeEntry(username):
         filepath = "currentusers.txt"
         originalUsername = username #Store original username prior to formatting (for console outputs)
+        originalUsername = originalUsername.replace('_', ' ')
+        originalUsername = originalUsername.rstrip()
         username = username.replace(' ', '_') #Replace any spaces in the username with underscores to fit file structure
         if os.path.exists(filepath):
             try:
@@ -177,14 +183,56 @@ class CurrentUser:
                 errorLog.logFatal("Fatal", filepath, "Cannot open file for reading/writing")
         else:
             errorLog.logFatal("Fatal", filepath, "File does not exist")
+    
+    def performTransactions():
+        filepath = "dailytransactions.txt"
+
+        with open(filepath, 'r') as file:
+            lines = file.readlines()  # Read all lines
+
+        # Iterate over each line
+        for line in lines:
+            # Split the line based on underscore ('_')
+            parts = line.strip().split('_')
+
+            # Extract relevant information
+            transactionCode = parts[0]  # Transaction type
+
+            if (transactionCode == '01'): #create commmand
+                print(f"Reading line {line}")
+                username = line[3:18]
+                usertype = line[19:21]
+                credit = float(parts[-1])
+                CurrentUser.createEntry(username, usertype, credit)
+            
+            if (transactionCode == '02'): #delete command
+                print(f"Reading line {line}")
+                username = line[3:18]
+                CurrentUser.removeEntry(username)
+
+            if (transactionCode == '04'): #buy command
+                print(f"Reading line {line}")
+                seller = line[23:38]
+                buyer = line[39:53]
+                credit = float(parts[-1])
+
+                CurrentUser.increaseBalance(seller, credit)
+                CurrentUser.decreaseBalance(buyer, credit)
+
+            if (transactionCode == '05'): #refund command
+                print(f"Reading line {line}")
+                buyer = line[3:18]
+                seller = line[19:34]
+                credit = float(parts[-1])
+                CurrentUser.increaseBalance(buyer, credit)
+                CurrentUser.decreaseBalance(seller, credit)
+            
+            if (transactionCode == '06'): #addcredit command
+                print(f"Reading line {line}")
+                username = line[3:18]
+                credit = float(parts[-1])
+                CurrentUser.increaseBalance(username, credit)
 
 #Main method for testing purposes
 if __name__ == "__main__":
-    #CurrentUser.createEntry("Justin", 'AA', 0)
-    #CurrentUser.createEntry("Test FS", 'FS', 0)
-    #CurrentUser.createEntry("Test BS", 'BS', 0)
-    #CurrentUser.createEntry("Test SS", 'SS', 0)
-    #CurrentUser.removeEntry("Justin")
-    CurrentUser.readFile()
-
-    #CurrentUser.decreaseBalance("Justin", 1000)
+    CurrentUser.performTransactions()
