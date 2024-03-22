@@ -1,33 +1,30 @@
 import os 
 
-# This file merges all Daily Transaction Files together and performs specific actions related to 
-# the dtf files produced for each session
+# This file manages the backend for Daily Transaction Files
 
-# must be run from project directory
+# Must be run from project directory
 
-def recordBuyerUsername():
-    buyerUserName = "placeholder"
-    return buyerUserName
-
-def recordSellerUsername():
-    sellerUserName = "placeholder"
-    return sellerUserName
-
-# Wipe the DTF
-def clear_entries():
-    with open("dailytransactions.txt", "w"):
-        pass
+# Clear all entries from DTF
+def clearEntries():
+    try: 
+        with open("dailytransactions.txt", "w"):
+            pass
+    except IOError as e:
+        print("Could not open dailytransactions.txt", e)
 
 # Merge all daily transaction files produced for that day
 def mergeDTF():
-    with open("./transaction_files/transactions_merged.txt", 'w') as out_file:
-        for file in os.listdir("./transaction_files"):
-            if file.endswith('.txt'):
-                file_path = os.path.join("./transaction_files", file)
-                with open(file_path, 'r') as in_file:
-                    # Read the contents of the file and write to merged transaction file
-                    out_file.write(in_file.read())
-                    out_file.write('\n')  # Add a newline after each file's content
+    try:
+        with open("./dailytransaction_files/dailytransactions_merged.txt", 'w') as out_file:
+            for file in os.listdir("./dailytransaction_files"):
+                if file.endswith('.txt') and file != "dailytransactions_merged.txt":
+                    file_path = os.path.join("./dailytransaction_files", file)
+                    with open(file_path, 'r') as in_file:
+                        # Read the contents of the dtf file and write to merged dtf file
+                        out_file.write(in_file.read())
+                        out_file.write('\n')  # Add a newline after each file's content    
+    except IOError as e:
+        print(f"Could not open 'dailytransactions_merged.txt': {e}")
 
 
 
