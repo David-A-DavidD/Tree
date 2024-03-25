@@ -43,27 +43,21 @@ class CurrentUser:
 
         #Checking if username already exists in the file (reading through the file)
         filepath = "currentusers.txt"
-        if os.path.exists(filepath):
-            try:
-                with open(filepath, 'r') as inputFile:
-                    lines = inputFile.readlines()
-                    for line in lines:
-                        if line.startswith(username):
-                            errorLog.logConstraint("Constraint", "create", "User already exists in file")
-                            return
-            except IOError:
-                errorLog.logFatal("Fatal", filepath, "Cannot open file for reading")
+ 
+        with open(filepath, 'r') as inputFile:
+            lines = inputFile.readlines()
+            for line in lines:
+                if line.startswith(username):
+                    errorLog.logConstraint("Constraint", "create", "User already exists in file")
+                    return
 
         #Prepare the user entry into the file
         entry = f"{username}_{usertype}_{creditString}\n"
 
         #Append the entry into the currentusers.txt file
-        try:
-            with open(filepath, 'a') as outputFile:
-                outputFile.write(entry)
-                print("Account Created!")
-        except IOError:
-            errorLog.logFatal("Fatal", filepath, "Cannot open file for writing")
+        with open(filepath, 'a') as outputFile:
+            outputFile.write(entry)
+            print("Account Created!")
 
     #This method is used to create an END user that will appear at the bottom of the .txt file, signaling the end of the file
     def createEndUser():
@@ -73,13 +67,10 @@ class CurrentUser:
     def readFile():
         filepath = "currentusers.txt"
         if os.path.exists(filepath):
-            try:
                 with open(filepath, 'r') as inputFile:
                     lines = inputFile.readlines()
                     for line in lines:
                         print(f"{line.strip()}")
-            except IOError:
-                errorLog.logFatal("Fatal", filepath, "Cannot open file for reading")
         else:
             errorLog.logFatal("Fatal", filepath, "File does not exist")
 
@@ -91,28 +82,25 @@ class CurrentUser:
         originalUsername = originalUsername.rstrip()
         username = username.replace(' ', '_') #Replace any spaces in the username with underscores to fit file structure
         if os.path.exists(filepath):
-            try:
-                with open(filepath, 'r+') as inputFile: #Open with RW privileges
-                    lines = inputFile.readlines()
+            with open(filepath, 'r+') as inputFile: #Open with RW privileges
+                lines = inputFile.readlines()
 
-                    #This will iterate through the entries of the file until it finds the line that matches the username whose balance needs to be increased.
-                    #It will then split the entry into its individual parts and add the specified credit accordingly
-                    for i, line in enumerate(lines):
-                        if line.startswith(username):
-                            parts = line.split('_')
-                            current_credit = float(parts[-1])
-                            new_credit = current_credit + credit
-                            parts[-1] = "{:.2f}".format(new_credit).ljust(9,'0')
-                            lines[i] = '_'.join(parts) + "\n"
-                            inputFile.seek(0)
-                            inputFile.writelines(lines)
-                            inputFile.truncate()
-                            print(f"Balance for {originalUsername} increased to {new_credit}.")
-                            return
-                    else:
-                        errorLog.logConstraint("Constraint", "refund/addcredit/buy", "User does not exist in file")
-            except IOError:
-                errorLog.logFatal("Fatal", filepath, "Cannot open file for reading/writing")
+                #This will iterate through the entries of the file until it finds the line that matches the username whose balance needs to be increased.
+                #It will then split the entry into its individual parts and add the specified credit accordingly
+                for i, line in enumerate(lines):
+                    if line.startswith(username):
+                        parts = line.split('_')
+                        current_credit = float(parts[-1])
+                        new_credit = current_credit + credit
+                        parts[-1] = "{:.2f}".format(new_credit).ljust(9,'0')
+                        lines[i] = '_'.join(parts) + "\n"
+                        inputFile.seek(0)
+                        inputFile.writelines(lines)
+                        inputFile.truncate()
+                        print(f"Balance for {originalUsername} increased to {new_credit}.")
+                        return
+                else:
+                    errorLog.logConstraint("Constraint", "refund/addcredit/buy", "User does not exist in file")
         else:
             errorLog.logFatal("Fatal", filepath, "File does not exist")
 
@@ -124,33 +112,30 @@ class CurrentUser:
         originalUsername = originalUsername.rstrip()
         username = username.replace(' ', '_') #Replace any spaces in the username with underscores to fit file structure
         if os.path.exists(filepath):
-            try:
-                with open(filepath, 'r+') as inputFile: #Open with RW privileges
-                    lines = inputFile.readlines()
+            with open(filepath, 'r+') as inputFile: #Open with RW privileges
+                lines = inputFile.readlines()
 
-                    #This will iterate through the entries of the file until it finds the line that matches the username whose balance needs to be decreased.
-                    #It will then split the entry into its individual parts and lower the specified credit accordingly
-                    for i, line in enumerate(lines):
-                        if line.startswith(username):
-                            parts = line.split('_')
-                            currentCredit = float(parts[-1])
-                            newCredit = currentCredit - credit
+                #This will iterate through the entries of the file until it finds the line that matches the username whose balance needs to be decreased.
+                #It will then split the entry into its individual parts and lower the specified credit accordingly
+                for i, line in enumerate(lines):
+                    if line.startswith(username):
+                        parts = line.split('_')
+                        currentCredit = float(parts[-1])
+                        newCredit = currentCredit - credit
 
-                            if (newCredit >= 0):
-                                parts[-1] = "{:.2f}".format(newCredit).ljust(9,'0')
-                                lines[i] = '_'.join(parts) + "\n"
-                                inputFile.seek(0)
-                                inputFile.writelines(lines)
-                                inputFile.truncate()
-                                print(f"Balance for {originalUsername} decreased to {newCredit}.")
-                                return
-                            else:
-                                errorLog.logConstraint("Constraint", "buy/refund", "User will have negative balance")
-                                return
-                    else:
-                        errorLog.logConstraint("Constraint", "buy/refund", "User does not exist in file")
-            except IOError:
-                errorLog.logFatal("Fatal", filepath, "Cannot open file for reading/writing")
+                        if (newCredit >= 0):
+                            parts[-1] = "{:.2f}".format(newCredit).ljust(9,'0')
+                            lines[i] = '_'.join(parts) + "\n"
+                            inputFile.seek(0)
+                            inputFile.writelines(lines)
+                            inputFile.truncate()
+                            print(f"Balance for {originalUsername} decreased to {newCredit}.")
+                            return
+                        else:
+                            errorLog.logConstraint("Constraint", "buy/refund", "User will have negative balance")
+                            return
+                else:
+                    errorLog.logConstraint("Constraint", "buy/refund", "User does not exist in file")
         else:
             errorLog.logFatal("Fatal", filepath, "File does not exist")
     
@@ -162,25 +147,22 @@ class CurrentUser:
         originalUsername = originalUsername.rstrip()
         username = username.replace(' ', '_') #Replace any spaces in the username with underscores to fit file structure
         if os.path.exists(filepath):
-            try:
-                with open(filepath, 'r+') as inputFile: #Open with RW privileges
-                    lines = inputFile.readlines()
-                    inputFile.seek(0)
-                    inputFile.truncate()
+            with open(filepath, 'r+') as inputFile: #Open with RW privileges
+                lines = inputFile.readlines()
+                inputFile.seek(0)
+                inputFile.truncate()
 
-                    #Using a flag, the method is essentially rewriting the file contents without the entry of the user being removed.
-                    isRemoved = False  
-                    for line in lines:
-                        if not line.startswith(username):
-                            inputFile.write(line)
-                        else:
-                            isRemoved = True
-                    if isRemoved:
-                        print(f"{originalUsername} removed.")
+                #Using a flag, the method is essentially rewriting the file contents without the entry of the user being removed.
+                isRemoved = False  
+                for line in lines:
+                    if not line.startswith(username):
+                        inputFile.write(line)
                     else:
-                        errorLog.logConstraint("Constraint", "delete", "User does not exist in file")
-            except IOError:
-                errorLog.logFatal("Fatal", filepath, "Cannot open file for reading/writing")
+                        isRemoved = True
+                if isRemoved:
+                    print(f"{originalUsername} removed.")
+                else:
+                    errorLog.logConstraint("Constraint", "delete", "User does not exist in file")
         else:
             errorLog.logFatal("Fatal", filepath, "File does not exist")
     
@@ -188,11 +170,8 @@ class CurrentUser:
         filepath = "dailytransactions.txt"
 
         if os.path.exists(filepath):
-            try:
-                with open(filepath, 'r') as file:
-                    lines = file.readlines()  # Read all lines
-            except IOError:
-                errorLog.logFatal("Fatal", filepath, "Cannot open file for reading/writing")
+            with open(filepath, 'r') as file:
+                lines = file.readlines()  # Read all lines
         else:
             errorLog.logFatal("Fatal", filepath, "File does not exist")
 
