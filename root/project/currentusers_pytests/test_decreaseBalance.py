@@ -24,7 +24,17 @@ def test_decreaseBalance9F(capfd):
     assert out == "ERROR: Type - Constraint, Transaction - buy/refund, Description - User does not exist in file\n"
 
 def test_decreaseBalance10(capfd):
+    filepath = "currentusers.txt"
+
+    with open(filepath, 'r') as file:
+        original_content = file.read()
+ 
+    with open(filepath, 'w') as file:
+        file.write("Justin__________AA_0.0000000")
+
     CurrentUser.decreaseBalance("Justin", 10)
     out, err = capfd.readouterr()
     assert out == "ERROR: Type - Constraint, Transaction - buy/refund, Description - User will have negative balance\n"
 
+    with open(filepath, 'w') as file:
+        file.write(original_content)
