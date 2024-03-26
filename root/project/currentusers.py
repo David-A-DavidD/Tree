@@ -66,13 +66,12 @@ class CurrentUser:
     #This method is used to read the contents of the .txt file and print them to the terminal
     def readFile():
         filepath = "currentusers.txt"
-        if os.path.exists(filepath):
-                with open(filepath, 'r') as inputFile:
-                    lines = inputFile.readlines()
-                    for line in lines:
-                        print(f"{line.strip()}")
-        else:
-            errorLog.logFatal("Fatal", filepath, "File does not exist")
+       
+        with open(filepath, 'r') as inputFile:
+            lines = inputFile.readlines()
+            for line in lines:
+                print(f"{line.strip()}")
+
 
     #This method is used to increase the credit of the provided username in the file. This is meant to be called when an 'addcredit', sale from a 'buy' or 'refund' transaction is read from the DTF
     def increaseBalance(username, credit):
@@ -81,28 +80,25 @@ class CurrentUser:
         originalUsername = originalUsername.replace('_', ' ')
         originalUsername = originalUsername.rstrip()
         username = username.replace(' ', '_') #Replace any spaces in the username with underscores to fit file structure
-        if os.path.exists(filepath):
-            with open(filepath, 'r+') as inputFile: #Open with RW privileges
-                lines = inputFile.readlines()
+        with open(filepath, 'r+') as inputFile: #Open with RW privileges
+            lines = inputFile.readlines()
 
-                #This will iterate through the entries of the file until it finds the line that matches the username whose balance needs to be increased.
-                #It will then split the entry into its individual parts and add the specified credit accordingly
-                for i, line in enumerate(lines):
-                    if line.startswith(username):
-                        parts = line.split('_')
-                        current_credit = float(parts[-1])
-                        new_credit = current_credit + credit
-                        parts[-1] = "{:.2f}".format(new_credit).ljust(9,'0')
-                        lines[i] = '_'.join(parts) + "\n"
-                        inputFile.seek(0)
-                        inputFile.writelines(lines)
-                        inputFile.truncate()
-                        print(f"Balance for {originalUsername} increased to {new_credit}.")
-                        return
-                else:
-                    errorLog.logConstraint("Constraint", "refund/addcredit/buy", "User does not exist in file")
-        else:
-            errorLog.logFatal("Fatal", filepath, "File does not exist")
+            #This will iterate through the entries of the file until it finds the line that matches the username whose balance needs to be increased.
+            #It will then split the entry into its individual parts and add the specified credit accordingly
+            for i, line in enumerate(lines):
+                if line.startswith(username):
+                    parts = line.split('_')
+                    current_credit = float(parts[-1])
+                    new_credit = current_credit + credit
+                    parts[-1] = "{:.2f}".format(new_credit).ljust(9,'0')
+                    lines[i] = '_'.join(parts) + "\n"
+                    inputFile.seek(0)
+                    inputFile.writelines(lines)
+                    inputFile.truncate()
+                    print(f"Balance for {originalUsername} increased to {new_credit}.")
+                    return
+            else:
+                errorLog.logConstraint("Constraint", "refund/addcredit/buy", "User does not exist in file")
 
     #This method is used to decrease the credit of the provided username in the file. This is meant to be called when a 'buy' transaction is read from the DTF
     def decreaseBalance(username, credit):
@@ -111,33 +107,30 @@ class CurrentUser:
         originalUsername = originalUsername.replace('_', ' ')
         originalUsername = originalUsername.rstrip()
         username = username.replace(' ', '_') #Replace any spaces in the username with underscores to fit file structure
-        if os.path.exists(filepath):
-            with open(filepath, 'r+') as inputFile: #Open with RW privileges
-                lines = inputFile.readlines()
+        with open(filepath, 'r+') as inputFile: #Open with RW privileges
+            lines = inputFile.readlines()
 
-                #This will iterate through the entries of the file until it finds the line that matches the username whose balance needs to be decreased.
-                #It will then split the entry into its individual parts and lower the specified credit accordingly
-                for i, line in enumerate(lines):
-                    if line.startswith(username):
-                        parts = line.split('_')
-                        currentCredit = float(parts[-1])
-                        newCredit = currentCredit - credit
+            #This will iterate through the entries of the file until it finds the line that matches the username whose balance needs to be decreased.
+            #It will then split the entry into its individual parts and lower the specified credit accordingly
+            for i, line in enumerate(lines):
+                if line.startswith(username):
+                    parts = line.split('_')
+                    currentCredit = float(parts[-1])
+                    newCredit = currentCredit - credit
 
-                        if (newCredit >= 0):
-                            parts[-1] = "{:.2f}".format(newCredit).ljust(9,'0')
-                            lines[i] = '_'.join(parts) + "\n"
-                            inputFile.seek(0)
-                            inputFile.writelines(lines)
-                            inputFile.truncate()
-                            print(f"Balance for {originalUsername} decreased to {newCredit}.")
-                            return
-                        else:
-                            errorLog.logConstraint("Constraint", "buy/refund", "User will have negative balance")
-                            return
-                else:
-                    errorLog.logConstraint("Constraint", "buy/refund", "User does not exist in file")
-        else:
-            errorLog.logFatal("Fatal", filepath, "File does not exist")
+                    if (newCredit >= 0):
+                        parts[-1] = "{:.2f}".format(newCredit).ljust(9,'0')
+                        lines[i] = '_'.join(parts) + "\n"
+                        inputFile.seek(0)
+                        inputFile.writelines(lines)
+                        inputFile.truncate()
+                        print(f"Balance for {originalUsername} decreased to {newCredit}.")
+                        return
+                    else:
+                        errorLog.logConstraint("Constraint", "buy/refund", "User will have negative balance")
+                        return
+            else:
+                errorLog.logConstraint("Constraint", "buy/refund", "User does not exist in file")
     
     #This method is used to remove an existing entry from the current users file. This is meant to be called when a 'delete' transaction is read from the DTF
     def removeEntry(username):
@@ -146,34 +139,32 @@ class CurrentUser:
         originalUsername = originalUsername.replace('_', ' ')
         originalUsername = originalUsername.rstrip()
         username = username.replace(' ', '_') #Replace any spaces in the username with underscores to fit file structure
-        if os.path.exists(filepath):
-            with open(filepath, 'r+') as inputFile: #Open with RW privileges
-                lines = inputFile.readlines()
-                inputFile.seek(0)
-                inputFile.truncate()
 
-                #Using a flag, the method is essentially rewriting the file contents without the entry of the user being removed.
-                isRemoved = False  
-                for line in lines:
-                    if not line.startswith(username):
-                        inputFile.write(line)
-                    else:
-                        isRemoved = True
-                if isRemoved:
-                    print(f"{originalUsername} removed.")
+        with open(filepath, 'r+') as inputFile: #Open with RW privileges
+            lines = inputFile.readlines()
+            inputFile.seek(0)
+            inputFile.truncate()
+
+            #Using a flag, the method is essentially rewriting the file contents without the entry of the user being removed.
+            isRemoved = False  
+            for line in lines:
+                if not line.startswith(username):
+                    inputFile.write(line)
                 else:
-                    errorLog.logConstraint("Constraint", "delete", "User does not exist in file")
-        else:
-            errorLog.logFatal("Fatal", filepath, "File does not exist")
+                    isRemoved = True
+            if isRemoved:
+                print(f"{originalUsername} removed.")
+            else:
+                errorLog.logConstraint("Constraint", "delete", "User does not exist in file")
+        
+        return isRemoved
+
     
     def performTransactions():
         filepath = "dailytransactions.txt"
 
-        if os.path.exists(filepath):
-            with open(filepath, 'r') as file:
-                lines = file.readlines()  # Read all lines
-        else:
-            errorLog.logFatal("Fatal", filepath, "File does not exist")
+        with open(filepath, 'r') as file:
+            lines = file.readlines()  # Read all lines
 
         # Iterate over each line
         for line in lines:
@@ -188,31 +179,26 @@ class CurrentUser:
                 username = line[3:18]
                 usertype = line[19:21]
                 credit = float(parts[-1])
-                CurrentUser.createEntry(username, usertype, credit)
-            
-            if (transactionCode == '02'): #delete command
+                CurrentUser.createEntry(username, usertype, credit) 
+            elif (transactionCode == '02'): #delete command
                 print(f"Reading line {line}")
                 username = line[3:18]
                 CurrentUser.removeEntry(username)
-
-            if (transactionCode == '04'): #buy command
+            elif (transactionCode == '04'): #buy command
                 print(f"Reading line {line}")
                 seller = line[23:38]
                 buyer = line[39:53]
                 credit = float(parts[-1])
-
                 CurrentUser.increaseBalance(seller, credit)
                 CurrentUser.decreaseBalance(buyer, credit)
-
-            if (transactionCode == '05'): #refund command
+            elif (transactionCode == '05'): #refund command
                 print(f"Reading line {line}")
                 buyer = line[3:18]
                 seller = line[19:34]
                 credit = float(parts[-1])
                 CurrentUser.increaseBalance(buyer, credit)
                 CurrentUser.decreaseBalance(seller, credit)
-            
-            if (transactionCode == '06'): #addcredit command
+            elif (transactionCode == '06'): #addcredit command
                 print(f"Reading line {line}")
                 username = line[3:18]
                 credit = float(parts[-1])

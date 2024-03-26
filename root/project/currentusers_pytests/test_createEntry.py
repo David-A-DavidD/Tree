@@ -13,6 +13,8 @@ def test_createEntry1a():
 
     assert content == "Jim____________"
 
+    CurrentUser.removeEntry("Jim")
+
 def test_createEntry1b():
     content = ""
     CurrentUser.createEntry("MaximusMacmillian", 'AA', 123)
@@ -24,6 +26,8 @@ def test_createEntry1b():
                 content = line[0:15]
 
     assert content == "MaximusMacmilli"
+
+    CurrentUser.removeEntry("MaximusMacmilli")
 
 def test_createEntry2a():
     content = ""
@@ -37,6 +41,8 @@ def test_createEntry2a():
 
     assert content == "123.00000"
 
+    CurrentUser.removeEntry("2A")
+
 def test_createEntry2b():
     content = ""
     CurrentUser.createEntry("2B", 'AA', 123456789123)
@@ -49,8 +55,10 @@ def test_createEntry2b():
 
     assert content == "123456789"
 
+    CurrentUser.removeEntry("2B")
+
 def test_createEntry3S(capfd):
-    CurrentUser.createEntry("Justin", 'SS', 100)
+    CurrentUser.createEntry("Justin", 'SS', 0)
     out, err = capfd.readouterr()
     assert out == "ERROR: Type - Constraint, Transaction - create, Description - User already exists in file\n"
 
@@ -64,3 +72,5 @@ def test_createEntry4S():
                 content = line
 
     assert content == "4S______________AA_100.00000\n"
+
+    CurrentUser.removeEntry("4S")
