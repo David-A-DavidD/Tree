@@ -203,7 +203,3 @@ class CurrentUser:
                 username = line[3:18]
                 credit = float(parts[-1])
                 CurrentUser.increaseBalance(username, credit)
-
-#Main method for testing purposes
-if __name__ == "__main__":
-    CurrentUser.performTransactions()
