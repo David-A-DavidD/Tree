@@ -17,6 +17,8 @@ class Gamescollection:
         stockOwnerName="SSSSSSSSSSSSSS"
         #Variable to store file path
         file1 ='gamescollectionfile.txt'
+        if not isinstance(gameName, str) or not isinstance(ownerUsername, str):
+            return "Error: Input must be a string"
         #Check early on in the coding process to make sure that it will be allowed into the file
         if len(gameName) > lengthGameName:
             return "Error game name exceeds the limit"
@@ -31,15 +33,7 @@ class Gamescollection:
         #add the padds to the end
         gameEntry += "_" * addPadds
         #Open the file
-        # # Check for duplicates before adding the new entry
-        # with open(file1, 'r') as file:
-        #     existing_entries = file.readlines()
-        
-        # # Check if the new entry already exists in the file
-        # for entry in existing_entries:
-        #     if gameName in entry and ownerUsername in entry:
-        #         print("Error Duplicate Entry")
-        #         return "Error: Duplicate entry"
+       
         with open(file1, 'a') as outFile:  #Use 'a' to append to the file
             #Write to the file with the new entry
             print("is this empty?????? +" + gameEntry)
@@ -64,108 +58,96 @@ class Gamescollection:
             return outFile.write(endUser + "\n") 
 
 
-    #Get GameName
+   
     def getGameName(fileName):
-        pattern="GameName:"
-        #Make a list to append the game Name later
-        gameName=[]
+        # Variable to store the first game name found
+        gameName = ""
         #initiate a try
         try:
-            #open the file
+            # Open the file
             with open(fileName, 'r') as file:
-                #loop through the file lines
-                for i in file:
-                    #Look for the pattern
-                    patternCipher = i.find(pattern)
-                    #if you fine the pattern
-                    if patternCipher !=-1:
-                        #fine the start spot
-                        startSpot=patternCipher + len(pattern)
-                        #remove the data that is not needed
-                        gameName =i[startSpot:].strip()
-                        #add the gameName to the fike
-                        gameName.append(gameName)
-        #If its not found print that out                
+                # Loop through the file lines
+                for line in file:
+                    # Find the first underscore in the line to locate the game name
+                    underscoreIndex = line.find('_')
+                    # If an underscore is found
+                    if underscoreIndex != -1:
+                        # Extract the game name, which is the part before the first underscore
+                        gameName = line[:underscoreIndex].strip()
+                        break  # Assuming you want the first game name found
         except FileNotFoundError:
             print("File not found")
-        #return the gameName
         return gameName
 
 
 
-
-    #Get UserName
     def getUserName(fileName):
-        pattern="UserName:"
-        #Make a list to append the game Name later
-        userName=[]
         #initiate a try
         try:
-            #open the file
+            #open file
             with open(fileName, 'r') as file:
-                #loop through the file lines
-                for i in file:
-                    #Look for the pattern
-                    patternCipher = i.find(pattern)
-                    #if you fine the pattern
-                    if patternCipher !=-1:
-                        #fine the start spot
-                        startSpot=patternCipher + len(pattern)
-                        #remove the data that is not needed
-                        userName =i[startSpot:].strip()
-                        #add the gameName to the fike
-                        userName.append(userName)
-        #If its not found print that out                
+                for line in file:
+                    # Split the line at the first underscore to fine username
+                    parts = line.split('_', 1)
+                    if len(parts) > 1:
+                        # Take the second part after the underscore
+                        userName = parts[1].split('_', 1)[0].strip()
+                        return userName  # Return the username found
         except FileNotFoundError:
             print("File not found")
-        #return the gameName
-        return userName
+        #return None if noting is found    
+        return None 
 
 
 
-
-    #Read the file in a function
     def readFile(fileName):
-        #Make a variable to store file contents
-        fileStore=""
-        #Open the file and read it
-        with open(fileName, 'r') as file:
-            #Loop through the file
-            for i in file:
-                #Print out its contents to the file
-                print(i)
-                #Store the file contents
-                fileStore+=i
-        #Return the contents of the file
+        fileStore = ""
+        lines_seen = set()
+
+        try:
+            with open(fileName, 'r') as file:
+                for i in file:
+                    stripped_line = i.strip()
+                    if stripped_line in lines_seen:
+                        print(f"Duplicate found: {stripped_line}")
+                        return stripped_line
+                    else:
+                        lines_seen.add(stripped_line)
+                        fileStore += i
+        except FileNotFoundError:
+            print("File not found")
+            return "File not found"  # Return the error message or handle appropriately
+
         return fileStore
 
-    #Function to remove a file entry
+    
     def removeEntry(time, ownerUsername):
         #Select the file
-        fileNow ='gamescollectionfile.txt'
+        fileNow = 'gamescollectionfile.txt'
         #lines you will keep in the file
-        keptLines=[]
+        keptLines = []
         #boolean to remove lines
         removed = False
         #try statement to start
         try:
             #open the file and read it
-            with open(fileNow,'r') as file:
+            with open(fileNow, 'r') as file:
                 #loop through the file
-                for i in file:
+                for line in file:
                     #See if its not the correct username and time
-                    if ownerUsername not in i or time not in i:
-                        #Append to the kept lines
-                        keptLines.append(i)
-                    #check if the username and timestamp are there to remove the file line
+                    if ownerUsername not in line or time not in line:
+                        keptLines.append(line)
+                    #check if the username and timestamp are there to remove the file line    
                     else:
-                        removed=True
-            #add the kept lines back to the file
-            with open(fileNow, 'w') as file:
-                file.writelines(keptLines)
+                        removed = True
+            if removed:
+                #add the kept lines back to the file
+                with open(fileNow, 'w') as file:
+                    file.writelines(keptLines)
+            return removed  
         #test to make sure it runs
         except FileNotFoundError:
-            print("Cannot fine file.")
+            print("Cannot find file.")
             return False
 
 
