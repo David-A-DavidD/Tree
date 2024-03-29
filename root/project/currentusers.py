@@ -161,7 +161,7 @@ class CurrentUser:
 
     
     def performTransactions():
-        filepath = "dailytransactions.txt"
+        filepath = "dailytransaction_files/dailytransactions.txt"
 
         with open(filepath, 'r') as file:
             lines = file.readlines()  # Read all lines

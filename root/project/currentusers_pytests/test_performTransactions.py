@@ -2,7 +2,7 @@ from currentusers import CurrentUser
 # python3 -m pytest in project folder to run pytests. Must have test_<name of test>.py format to be run as a pytest
 
 def test_performTransactions15(capfd):
-    filepath = "dailytransactions.txt"
+    filepath = "dailytransaction_files/dailytransactions.txt"
     with open(filepath, 'r') as file:
         original_content = file.read()
  
@@ -18,7 +18,7 @@ def test_performTransactions15(capfd):
         file.write(original_content)
 
 def test_performTransactions16(capfd):
-    filepath = "dailytransactions.txt"
+    filepath = "dailytransaction_files/dailytransactions.txt"
     with open(filepath, 'r') as file:
         original_content = file.read()
  
@@ -34,7 +34,7 @@ def test_performTransactions16(capfd):
         file.write(original_content)
 
 def test_performTransactions17(capfd):
-    filepath = "dailytransactions.txt"
+    filepath = "dailytransaction_files/dailytransactions.txt"
     filepath_users = "currentusers.txt"
 
     with open(filepath_users, 'r') as file:
@@ -61,7 +61,7 @@ def test_performTransactions17(capfd):
         file.write(original_content_users)
 
 def test_performTransactions18(capfd):
-    filepath = "dailytransactions.txt"
+    filepath = "dailytransaction_files/dailytransactions.txt"
     filepath_users = "currentusers.txt"
 
     with open(filepath_users, 'r') as file:
@@ -87,10 +87,8 @@ def test_performTransactions18(capfd):
     with open(filepath_users, 'w') as file:
         file.write(original_content_users)
         
-
-
 def test_performTransactions19(capfd):
-    filepath = "dailytransactions.txt"
+    filepath = "dailytransaction_files/dailytransactions.txt"
     filepath_users = "currentusers.txt"
 
     with open(filepath_users, 'r') as file:
