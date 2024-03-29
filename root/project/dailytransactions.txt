@@ -1,6 +1,0 @@
-06_Justin__________AA_500.00000
-06_Test_SS_________AA_500.00000
-01_Justin_Test_____BS_650.5000000
-02_Justin_Test_____BS_0.0000000
-05_Justin__________Test_SS_________100.00000
-04_Mortal_Kombat_______Test_SS_________Justin_________100.00
