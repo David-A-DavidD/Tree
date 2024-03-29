@@ -6,9 +6,6 @@ import errorLog
 #that would occur to the available game file (namely creating an entry, reading the file, creating and end user, removing entry).
 #This file also utilizes the errorLog.py file to log any potential errors that can occur.
 
-#TODO
-# - Read from DTF and apply methods to currentusers.txt accordingly
-
 # * Note: cd into project folder before running *
 
 
@@ -21,12 +18,26 @@ class AvailableGames:
 
 
     def createEntry(self, gameName, sellerUsername, gamePrice):
-        gameNameSect = "IIIIIIIIIIIIIIIIIII"
-       # sellerUsernameSect = "SSSSSSSSSSSSSS" currently not being used needs to be correctly implemented
-        gamePriceSect = "PPPPPP"
 
-    #Replace spaces in username with underscores
+        #Replace spaces in username with underscores
         gameName = gameName.replace(' ', '_')
+
+       # Prepare the user entry into the file
+        entry = f"{gameName[:19]}_{sellerUsername[:14]}_{gamePrice:.2f}\n"
+
+        # Append the entry into the availablegames.txt file
+        filepath = "availablegames.txt"
+        try:
+            with open(filepath, 'a') as outputFile:
+                outputFile.write(entry)
+        except IOError:
+            errorLog.logFatal("Fatal", filepath, "Cannot open file for writing")
+
+        gameNameSect = "IIIIIIIIIIIIIIIIIII" #might remove?
+       # sellerUsernameSect = "SSSSSSSSSSSSSS" NOT NEEDED
+        gamePriceSect = "PPPPPP" #might remove?
+
+    
 
         #Fill in name section according to gamename length
         lenNameSect = len(gameNameSect)
@@ -80,8 +91,9 @@ class AvailableGames:
             try:
                 with open(filepath, 'r') as inputFile:
                     lines = inputFile.readlines()
-                    for line in lines:
-                        print(f"{line.strip()}")
+                    for line in lines: #modified for correct output format
+                        game_info = line.strip().split('_')
+                        print(f"Game: {game_info[0]}, Seller: {game_info[1]}, Price: ${game_info[2]}")
             except IOError:
                 errorLog.logFatal("Fatal", filepath, "Cannot open file for reading")
         else:
@@ -120,7 +132,33 @@ class AvailableGames:
         else:
             errorLog.logFatal("Fatal", filepath, "File does not exist")
 
+#daily transactions
+    @staticmethod #should handle dailytransactions properly
+    def performTransactions():
+        filepath = "dailytransaction_files/dailytransactions.txt"
 
+        with open(filepath, 'r') as file:
+            lines = file.readlines()  # Read all lines
+
+        # Iterate over each line
+        for line in lines:
+            # Split the line based on underscore ('_')
+            parts = line.strip().split('_')
+
+
+ # Extract relevant information
+            transactionCode = parts[0]  # Transaction type
+
+            if (transactionCode == '01'): #create entry commmand
+                print(f"Reading line {line}")
+                username = line[3:18]
+                usertype = line[19:21]
+                credit = float(parts[-1])
+                availableGames.createEntry(username, usertype, credit) 
+            elif (transactionCode == '02'): #delete entry command
+                print(f"Reading line {line}")
+                username = line[3:18]
+                availableGames.removeEntry(username)
 
 #Main method for testing purposes
 if __name__ == "__main__":
