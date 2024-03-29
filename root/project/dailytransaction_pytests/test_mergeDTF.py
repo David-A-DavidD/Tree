@@ -10,7 +10,7 @@ def test_mergeDTF(capfd):
     DailyTransaction.mergeDTF()
     out, err = capfd.readouterr()
 
-    assert out == "All DTF files successfully merged.\n"
+    assert out == "DTF file added to dailytransactions_merged.txt.\n"
 
     with open(filepath, 'w') as file:
         file.write(original_content)

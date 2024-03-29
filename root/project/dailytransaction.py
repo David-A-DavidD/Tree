@@ -23,7 +23,7 @@ class DailyTransaction:
                         # Read the contents of the dtf file and write to merged dtf file
                         out_file.write(in_file.read())
                         out_file.write('\n')  # Add a newline after each file's content
-            print("All DTF files successfully merged.")
+                        print("DTF file added to dailytransactions_merged.txt.")
 
 
 
