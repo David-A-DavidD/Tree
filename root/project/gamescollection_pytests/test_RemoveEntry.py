@@ -2,7 +2,7 @@ import pytest
 import os
 from gamescollecton import Gamescollection  # Replace with the correct module name
 
-def test_removeEntry_nonexistent_entry():
+def test_removeEntryTC15Fail():
     #make file
     fileNow = 'gamescollectionfile.txt'
     #open file
@@ -23,7 +23,7 @@ def test_removeEntry_nonexistent_entry():
 
 
 
-def test_removeEntry_successful_removal():
+def test_removeEntryTC16Success():
     #make file
     fileNow = 'gamescollectionfile.txt'
     #test the entrys
