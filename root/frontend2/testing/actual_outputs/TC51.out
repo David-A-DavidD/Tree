@@ -1,0 +1,2 @@
+../../src/distribution-system: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.34' not found (required by ../../src/distribution-system)
+../../src/distribution-system: /lib/x86_64-linux-gnu/libstdc++.so.6: version `GLIBCXX_3.4.29' not found (required by ../../src/distribution-system)
