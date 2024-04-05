@@ -44,6 +44,16 @@ public:
         std::string username = getUsername();
         int userType = getType();
 
+        if (currentUser.getType() == AccountManager)
+        {
+            if (userType == 1)
+            {
+                std::cout << "Error. You cannot create an Admin." << std::endl;
+                // Return a default-constructed User object to indicate an error
+                return User("", 0, 0.0);
+            }
+        }
+    
         // Create a new user object with the provided information
         User newUser(username, userType, 0.0);
 
@@ -61,15 +71,16 @@ public:
         {
             std::cerr << "Error: Unable to open the file for writing." << std::endl;
         }
-
+        
         return newUser;
+    
     }
 
     // Function to delete a user
     User deleteUser()
     {
         // Check if the current user is an admin
-        if (currentUser.getType() != Admin)
+        if (currentUser.getType() == FullStandard || currentUser.getType() == SellStandard || currentUser.getType() == BuyStandard)
         {
             std::cout << "User unauthorized to perform this action." << std::endl;
             // Return a default-constructed User object to indicate an error
@@ -94,6 +105,13 @@ public:
 
         // Remove the user account
         User deletedUser = *userToDelete;
+
+        if (currentUser.getType() == AccountManager && deletedUser.getType() == Admin)
+        {
+            std::cout << "Error. You cannot delete an admin account." << std::endl;
+            // Return a default-constructed User object to indicate an error
+            return User("", 0, 0.0);
+        }
 
         if (userUpdater.openFile())
         {
@@ -178,17 +196,41 @@ public:
         std::string username;
         double creditAmount;
 
-        // Get the username from the user
-        std::cout << "Enter the username: ";
-        std::cin.ignore(); // Ignore the newline character from the previous input
-        std::getline(std::cin, username);
+        User *user = sharedData.getUserByUsername(currentUser.getUsername());
 
-        // Check if the username is valid
-        User *user = sharedData.getUserByUsername(username);
-        if (user == nullptr)
+        if (currentUser.getType() == Admin || currentUser.getType() == AccountManager)
         {
-            std::cout << "Error: Username does not exist in the system." << std::endl;
-            return nullptr;
+            // Get the username from the user
+            std::cout << "Enter the username: ";
+            std::cin.ignore(); // Ignore the newline character from the previous input
+            std::getline(std::cin, username);
+
+            // Check if the username is valid
+            User *user = sharedData.getUserByUsername(username);
+            if (user == nullptr)
+            {
+                std::cout << "Error: Username does not exist in the system." << std::endl;
+                return nullptr;
+            }
+
+            // Get the amount of credit to add
+            std::cout << "Enter the amount of credit to add: ";
+            std::cin >> creditAmount;
+
+            // Check if the credit amount is valid
+            if (creditAmount > 1000.00)
+            {
+                std::cout << "Error: Maximum $1000.00 can be added to an account in a given session." << std::endl;
+                return nullptr;
+            }
+
+            // Update the user's credit
+            double newCredit = user->getCredit() + creditAmount;
+            creditUpdater.updateCreditForUser(user, newCredit);
+
+            std::cout << "Credit added successfully. New credit for user " << username << ": " << newCredit << std::endl;
+
+            return user;
         }
 
         // Get the amount of credit to add
@@ -213,22 +255,29 @@ public:
 
     void listUsers()
     {
-        // Display header with column names
-        std::cout << "User Information:" << std::endl;
-        std::cout << std::setw(20) << std::left << "Username"
-                  << std::setw(15) << std::left << "User Type"
-                  << std::setw(10) << std::left << "Credit" << std::endl;
-
-        // Iterate through each user
-        for (const User &user : users)
+        if (currentUser.getType() == Admin || currentUser.getType() == AccountManager)
         {
-            // Display user information
-            std::cout << std::setw(20) << std::left << user.getUsername()
-                      << std::setw(15) << std::left << getFullUserType(user.getType())
-                      << std::setw(10) << std::fixed << std::setprecision(2) << user.getCredit() << std::endl;
+            // Display header with column names
+            std::cout << "User Information:" << std::endl;
+            std::cout << std::setw(20) << std::left << "Username"
+                    << std::setw(15) << std::left << "User Type"
+                    << std::setw(10) << std::left << "Credit" << std::endl;
 
-            // Add a divider line between each user
-            std::cout << std::string(45, '-') << std::endl;
+            // Iterate through each user
+            for (const User &user : users)
+            {
+                // Display user information
+                std::cout << std::setw(20) << std::left << user.getUsername()
+                        << std::setw(15) << std::left << getFullUserType(user.getType())
+                        << std::setw(10) << std::fixed << std::setprecision(2) << user.getCredit() << std::endl;
+
+                // Add a divider line between each user
+                std::cout << std::string(45, '-') << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Error. You do not have permission to access this command" << std::endl;
         }
     }
 
@@ -271,7 +320,7 @@ private:
         int userType;
         while (true)
         {
-            std::cout << "Enter user type (1-admin, 2-full-standard, 3-buy-standard, 4-sell-standard): ";
+            std::cout << "Enter user type (1-admin, 2-full-standard, 3-buy-standard, 4-sell-standard, 5-account-manager): ";
             std::cin >> userType;
 
             // If invalid input, clear the input buffer and try again
@@ -282,7 +331,7 @@ private:
             }
 
             // If the input is a valid user type, break out of the loop
-            if (userType == 1 || userType == 2 || userType == 3 || userType == 4)
+            if (userType == 1 || userType == 2 || userType == 3 || userType == 4 ||userType == 5)
                 break;
         }
 

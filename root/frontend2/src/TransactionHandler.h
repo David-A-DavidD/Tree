@@ -122,7 +122,7 @@ private:
     // Helper function to handle the "sell" transaction
     void handleSellTransaction()
     {
-        if (sharedData.getCurrentUser().getType() == BuyStandard)
+        if (sharedData.getCurrentUser().getType() == BuyStandard || sharedData.getCurrentUser().getType() == AccountManager)
         {
             std::cout << "You do not have the privilege to sell a game." << std::endl;
         }
@@ -140,7 +140,7 @@ private:
     // Helper function to handle the "buy" transaction
     void handleBuyTransaction()
     {
-        if (sharedData.getCurrentUser().getType() == SellStandard)
+        if (sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == AccountManager)
         {
             std::cout << "You do not have the privilege to sell a game." << std::endl;
         }
@@ -160,7 +160,7 @@ private:
     // Helper function to handle the "create" transaction
     void handleCreateTransaction()
     {
-        if (sharedData.getCurrentUser().getType() != Admin)
+        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard)
         {
             std::cout << "User unauthorized" << std::endl;
         }
@@ -174,7 +174,7 @@ private:
     // Helper function to handle the "delete" transaction
     void handleDeleteTransaction()
     {
-        if (sharedData.getCurrentUser().getType() != Admin)
+        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard)
         {
             std::cout << "User unauthorized" << std::endl;
         }
@@ -195,7 +195,7 @@ private:
     // Helper function to handle the "refund" transaction
     void handleRefundTransaction()
     {
-        if (sharedData.getCurrentUser().getType() != Admin)
+        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard)
         {
             std::cout << "User unauthorized" << std::endl;
         }
@@ -214,17 +214,10 @@ private:
     // Helper function to handle the "addcredit" transaction
     void handleAddCreditTransaction()
     {
-        if (sharedData.getCurrentUser().getType() != Admin)
+        User *user = userManager.addCredit();
+        if (user != nullptr)
         {
-            std::cout << "User unauthorized" << std::endl;
-        }
-        else
-        {
-            User *user = userManager.addCredit();
-            if (user != nullptr)
-            {
-                dailyTransactionWriter.addUserTransaction("06", *user);
-            }
+            dailyTransactionWriter.addUserTransaction("06", *user);
         }
     }
 
@@ -237,7 +230,7 @@ private:
     // Helper function to handle the "listusers" transaction
     void handleListUsersTransaction()
     {
-        if (sharedData.getCurrentUser().getType() != Admin)
+        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard)
         {
             std::cout << "User unauthorized" << std::endl;
         }
