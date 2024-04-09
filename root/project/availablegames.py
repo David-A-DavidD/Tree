@@ -26,7 +26,7 @@ class AvailableGames:
         entry = f"{gameName[:19]}_{sellerUsername[:14]}_{gamePrice:.2f}\n"
 
         # Append the entry into the availablegames.txt file
-        filepath = "availablegames.txt"
+        filepath = "../data/availablegames.txt"
         try:
             with open(filepath, 'a') as outputFile:
                 outputFile.write(entry)
@@ -58,7 +58,7 @@ class AvailableGames:
             priceString += '0' * ( lengamePriceSect - len(priceString))
 
             #Checking if game name already exists in the file (reading through the file)
-            filepath = "availablegames.txt"
+            filepath = "../data/availablegames.txt"
             if os.path.exists(filepath):
                 try:
                     with open(filepath, 'r') as inputFile:
@@ -86,7 +86,7 @@ class AvailableGames:
 
 #This method is used to read the contents of the .txt file and print them to the terminal
     def readFile(self):
-        filepath = "availablegames.txt"
+        filepath = "../data/availablegames.txt"
         if os.path.exists(filepath):
             try:
                 with open(filepath, 'r') as inputFile:
@@ -104,7 +104,7 @@ class AvailableGames:
 #def removeEntry(String gameName, String sellerUsername, double gamePrice)
 #This method is used to remove an existing entry from the available games file. This is meant to be called when a 'delete' transaction is read from the DTF
     def removeEntry(self, gameName, sellerUsername, gamePrice):
-        filepath = "availablegames.txt"
+        filepath = "../data/availablegames.txt"
         gameName = gameName.replace(' ', '_') #Replace any spaces in the gameName with underscores to fit file structure
         sellerUsername = sellerUsername.replace(' ', '_') #Replace any spaces in the username with underscores to fit file structure
         gamePrice = "{:.2f}".format(gamePrice) #format gameprice to 2dp
@@ -135,7 +135,7 @@ class AvailableGames:
 #daily transactions
     @staticmethod #should handle dailytransactions properly
     def performTransactions():
-        filepath = "dailytransaction_files/dailytransactions.txt"
+        filepath = "../data/dailytransactions.txt"
 
         with open(filepath, 'r') as file:
             lines = file.readlines()  # Read all lines

@@ -8,7 +8,7 @@ class DailyTransaction:
 
     # Clear all entries from DTF
     def clearEntries():
-        with open("dailytransactions.txt", "w"):
+        with open("../data/dailytransactions.txt", "w"):
             pass
             print("DTF file successfully cleared.")
 

@@ -16,7 +16,7 @@ class Gamescollection:
         stockName="IIIIIIIIIIIIIIIIIII"
         stockOwnerName="SSSSSSSSSSSSSS"
         #Variable to store file path
-        file1 ='gamescollectionfile.txt'
+        file1 ="../data/gamescollection.txt"
         if not isinstance(gameName, str) or not isinstance(ownerUsername, str):
             return "Error: Input must be a string"
         #Check early on in the coding process to make sure that it will be allowed into the file
@@ -48,7 +48,7 @@ class Gamescollection:
         #Take the stock username for the Entry
         stockOwnerName="SSSSSSSSSSSSSS"
         #get the filepath for the file
-        file ='gamescollectionfile.txt'
+        file ="../data/gamescollection.txt"
         #Write the Stock endUser Entry
         endUser= stockName + "_" + stockOwnerName
         #Open the file
@@ -123,7 +123,7 @@ class Gamescollection:
     
     def removeEntry(time, ownerUsername):
         #Select the file
-        fileNow = 'gamescollectionfile.txt'
+        fileNow = "../data/gamescollection.txt"
         #lines you will keep in the file
         keptLines = []
         #boolean to remove lines
@@ -152,17 +152,17 @@ class Gamescollection:
 
 
 
-#Values to test run code
-gametitle="Halo3"
-ownerUserName="Hugh"
-Gamescollection.createEntry(gametitle,ownerUserName)
-Gamescollection.createEndUser()
-filepath='gamescollectionfile.txt'
-Gamescollection.getGameName(filepath)
-filepath='gamescollectionfile.txt'
-Gamescollection.getUserName(filepath)
-filepath='gamescollectionfile.txt'
-Gamescollection.readFile(filepath)
-time ="5:00am"
-Owner="Bob"
-Gamescollection.removeEntry(time,Owner)
+# #Values to test run code
+# gametitle="Halo3"
+# ownerUserName="Hugh"
+# Gamescollection.createEntry(gametitle,ownerUserName)
+# Gamescollection.createEndUser()
+# filepath='gamescollectionfile.txt'
+# Gamescollection.getGameName(filepath)
+# filepath='gamescollectionfile.txt'
+# Gamescollection.getUserName(filepath)
+# filepath='gamescollectionfile.txt'
+# Gamescollection.readFile(filepath)
+# time ="5:00am"
+# Owner="Bob"
+# Gamescollection.removeEntry(time,Owner)

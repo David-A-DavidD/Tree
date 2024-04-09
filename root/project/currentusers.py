@@ -42,7 +42,7 @@ class CurrentUser:
             creditString += '0' * (lenCreditSect - len(creditString))
 
         #Checking if username already exists in the file (reading through the file)
-        filepath = "currentusers.txt"
+        filepath = "../data/currentaccounts.txt"
  
         with open(filepath, 'r') as inputFile:
             lines = inputFile.readlines()
@@ -65,7 +65,7 @@ class CurrentUser:
 
     #This method is used to read the contents of the .txt file and print them to the terminal
     def readFile():
-        filepath = "currentusers.txt"
+        filepath = "../data/currentaccounts.txt"
        
         with open(filepath, 'r') as inputFile:
             lines = inputFile.readlines()
@@ -75,7 +75,7 @@ class CurrentUser:
 
     #This method is used to increase the credit of the provided username in the file. This is meant to be called when an 'addcredit', sale from a 'buy' or 'refund' transaction is read from the DTF
     def increaseBalance(username, credit):
-        filepath = "currentusers.txt"
+        filepath = "../data/currentaccounts.txt"
         originalUsername = username #Store original username prior to formatting (for console outputs)
         originalUsername = originalUsername.replace('_', ' ')
         originalUsername = originalUsername.rstrip()
@@ -102,7 +102,7 @@ class CurrentUser:
 
     #This method is used to decrease the credit of the provided username in the file. This is meant to be called when a 'buy' transaction is read from the DTF
     def decreaseBalance(username, credit):
-        filepath = "currentusers.txt"
+        filepath = "../data/currentaccounts.txt"
         originalUsername = username #Store original username prior to formatting (for console outputs)
         originalUsername = originalUsername.replace('_', ' ')
         originalUsername = originalUsername.rstrip()
@@ -134,7 +134,7 @@ class CurrentUser:
     
     #This method is used to remove an existing entry from the current users file. This is meant to be called when a 'delete' transaction is read from the DTF
     def removeEntry(username):
-        filepath = "currentusers.txt"
+        filepath = "../data/currentaccounts.txt"
         originalUsername = username #Store original username prior to formatting (for console outputs)
         originalUsername = originalUsername.replace('_', ' ')
         originalUsername = originalUsername.rstrip()
@@ -161,7 +161,7 @@ class CurrentUser:
 
     
     def performTransactions():
-        filepath = "dailytransaction_files/dailytransactions.txt"
+        filepath = "../data/dailytransactions.txt"
 
         with open(filepath, 'r') as file:
             lines = file.readlines()  # Read all lines
