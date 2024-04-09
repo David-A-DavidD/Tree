@@ -106,6 +106,11 @@ public:
         addTransaction(transactionString);
     }
 
+    bool isFileEmpty(const std::string& filename) {
+        std::ifstream file(filename);
+        return file.peek() == std::ifstream::traits_type::eof();
+    }
+
     // Function to write the daily transaction file
     void writeDailyTransactionFile(User &user)
     {
@@ -114,15 +119,44 @@ public:
 
         // Open the daily transaction file in append mode
         std::ofstream dailyTransactionFile = openFile();
+        std::ofstream dtf;
+
+        // Check if dtf_1.txt contains text
+        if (!isFileEmpty("../testing/scripts/inputs/dtf_1.txt")) 
+        {
+            !dtf.is_open();
+        }
+        else
+        {
+            dtf.open("../testing/scripts/inputs/dtf_1.txt");
+        }
+
+        if (!dtf.is_open()) {
+            // If the file doesn't open, try alternative names
+            int fileNumber = 2;
+            std::stringstream fileName;
+            fileName << "../testing/scripts/inputs/dtf_" << fileNumber << ".txt";
+            dtf.open(fileName.str());
+
+            // Check if alternative name works
+            while (!dtf.is_open()) {
+                fileNumber++;
+                fileName.str(""); // Clear stringstream
+                fileName << "../testing/scripts/inputs/dtf_" << fileNumber << ".txt";
+                dtf.open(fileName.str());
+            }
+        }
 
         // Write each transaction from the dailyTransactions vector to the file
         for (const std::string &transaction : dailyTransactions)
         {
             dailyTransactionFile << transaction;
+            dtf << transaction;
         }
 
         // Close the file
         closeFile(dailyTransactionFile);
+        closeFile(dtf);
     }
 
 private:
@@ -136,7 +170,7 @@ private:
     std::ofstream openFile()
     {
         // Open the daily transaction file in append mode
-        std::ofstream fileStream(dailyTransactionFilename, std::ios::app);
+        std::ofstream fileStream(dailyTransactionFilename, std::ios::out);
         if (!fileStream.is_open())
         {
             std::cerr << "Error: Unable to open the daily transaction file for writing." << std::endl;
