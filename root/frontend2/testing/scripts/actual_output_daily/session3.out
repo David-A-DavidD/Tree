@@ -1,0 +1,6 @@
+Enter transaction code (or 'exit' to quit): Enter username: Login successful.
+Enter transaction code (or 'exit' to quit): Enter the game name (up to 25 characters): A game with the same name already exists. Please choose a unique name.
+Enter transaction code (or 'exit' to quit): Invalid transaction code. Please try again.
+Enter transaction code (or 'exit' to quit): Enter the username: Error: Username does not exist in the system.
+Enter transaction code (or 'exit' to quit): Invalid transaction code. Please try again.
+Enter transaction code (or 'exit' to quit): 
