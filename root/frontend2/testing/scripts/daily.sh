@@ -28,33 +28,30 @@ for in_file in "$input_dir"/*.in; do
   cat "$in_file" | ../../src/distribution-system "$accounts_file" "$available_games_file" "$collection_file" "../../data/dailytransactions.txt" > "$out_file"
 done
 
-# Merge all .dt files into Merged.dt
-cat "$input_dir"/*.txt > /inputs/MergedDTF.txt
-
 # Run backend.py on the merged file
-#python michaelsbackend.py Merged.dt
+python ../../../project/main.py inputs/dailytransactions_merged.txt
 
 # Define the log file path
-#diff_log_file="diff_log.txt"
+diff_log_file="diff_log.txt"
 
 # Ensure the log file is empty at the start
-#> "$diff_log_file"
+> "$diff_log_file"
 
 # Loop through all .out files in the actual output directory for comparison
-#for out_file in "$actual_output_dir"/*.out; do
-  # Extract filename for comparison
-#  base_name=$(basename "$out_file")
+for out_file in "$actual_output_dir"/*.out; do
+   # Extract filename for comparison
+  base_name=$(basename "$out_file")
   # Compare .out files and append to log
-#  echo "Comparing $base_name with expected output..." >> "$diff_log_file"
-#  diff "$out_file" "$expected_output_dir/$base_name" >> "$diff_log_file" 2>&1
-#done
+  echo "Comparing $base_name with expected output..." >> "$diff_log_file"
+  diff "$out_file" "$expected_output_dir/$base_name" >> "$diff_log_file" 2>&1
+done
 
 # Compare the Merged.dt file and append to log
-#echo "Comparing Merged.dt with expected output..." >> "$diff_log_file"
-#diff Merged.dt "$expected_output_dir/Merged.dt" >> "$diff_log_file" 2>&1
+echo "Comparing Merged.dt with expected output..." >> "$diff_log_file"
+diff Merged.dt "$expected_output_dir/Merged.dt" >> "$diff_log_file" 2>&1
 
 # Compare the three base files against their expected counterparts and append to log
-#echo "Comparing base files with expected outputs..." >> "$diff_log_file"
-#diff "$accounts_file" "$expected_output_dir/$(basename "$accounts_file")" >> "$diff_log_file" 2>&1
-#diff "$collection_file" "$expected_output_dir/$(basename "$collection_file")" >> "$diff_log_file" 2>&1
-#diff "$available_games_file" "$expected_output_dir/$(basename "$available_games_file")" >> "$diff_log_file" 2>&1
+echo "Comparing base files with expected outputs..." >> "$diff_log_file"
+diff "$accounts_file" "$expected_output_dir/$(basename "$accounts_file")" >> "$diff_log_file" 2>&1
+diff "$collection_file" "$expected_output_dir/$(basename "$collection_file")" >> "$diff_log_file" 2>&1
+diff "$available_games_file" "$expected_output_dir/$(basename "$available_games_file")" >> "$diff_log_file" 2>&1
