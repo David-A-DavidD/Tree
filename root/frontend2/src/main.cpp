@@ -42,19 +42,6 @@ int main(int argc, char *argv[])
             break; // Exit the loop and end the program
         }
 
-        // // Handle transactions using the handler
-        // handler.handleTransaction(transactionCode);
-        //Set Login Command after being
-        if (transactionCode == "logout")
-        {
-            transactionCode="exit"; // Exit the loop and end the program
-        }
-
-        // Check for exit condition
-        if (transactionCode == "exit")
-        {
-            break; // Exit the loop and end the program
-        }
         // Handle transactions using the handler
         handler.handleTransaction(transactionCode);
     }
