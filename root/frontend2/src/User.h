@@ -5,6 +5,7 @@
 
 #include "Game.h"
 #include "general.h"
+#include <vector>
 
 class User {
    public:
