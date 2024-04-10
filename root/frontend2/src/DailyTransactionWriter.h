@@ -111,7 +111,7 @@ public:
         return file.peek() == std::ifstream::traits_type::eof();
     }
 
-    // Function to write the daily transaction file
+        // Function to write the daily transaction file
     void writeDailyTransactionFile(User &user)
     {
         // Add end of session transaction
@@ -119,33 +119,24 @@ public:
 
         // Open the daily transaction file in append mode
         std::ofstream dailyTransactionFile = openFile();
-        std::ofstream dtf;
+        std::ofstream seqOut;
+        std::ifstream seqIn;
+        unsigned int fileSeq;
 
-        // Check if dtf_1.txt contains text
-        if (!isFileEmpty("../testing/scripts/inputs/dtf_1.txt")) 
+        seqIn.open("../testing/scripts/inputs/sequence.txt");
+
+        if (seqIn.is_open())
         {
-            !dtf.is_open();
+            seqIn >> fileSeq;
+            fileSeq++;
         }
         else
-        {
-            dtf.open("../testing/scripts/inputs/dtf_1.txt");
-        }
+            fileSeq = 1; // if it does not exist, start from sequence 1.
 
-        if (!dtf.is_open()) {
-            // If the file doesn't open, try alternative names
-            int fileNumber = 2;
-            std::stringstream fileName;
-            fileName << "../testing/scripts/inputs/dtf_" << fileNumber << ".txt";
-            dtf.open(fileName.str());
+        std::ofstream dtf;
+        std::string fileName = "../testing/scripts/inputs/dtf" + std::to_string(fileSeq) + ".txt";
 
-            // Check if alternative name works
-            while (!dtf.is_open()) {
-                fileNumber++;
-                fileName.str(""); // Clear stringstream
-                fileName << "../testing/scripts/inputs/dtf_" << fileNumber << ".txt";
-                dtf.open(fileName.str());
-            }
-        }
+        dtf.open(fileName, std::ios::out);
 
         // Write each transaction from the dailyTransactions vector to the file
         for (const std::string &transaction : dailyTransactions)
@@ -157,6 +148,9 @@ public:
         // Close the file
         closeFile(dailyTransactionFile);
         closeFile(dtf);
+        dailyTransactions.clear();
+        seqOut.open("../testing/scripts/inputs/sequence.txt");
+        seqOut << fileSeq;
     }
 
 private:

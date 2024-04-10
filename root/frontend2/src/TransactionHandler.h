@@ -115,11 +115,8 @@ private:
     // Helper function to handle the "logout" transaction
     void handleLogoutTransaction()
     {
-        std::cout << "LOGOUT OCCURS" << std::endl;
-        //dailyTransactionWriter.writeDailyTransactionFile(sharedData.getCurrentUser());
-        //std::cout << "LOGOUT OCCURS2" << std::endl;
         isLoggedIn = !authManager.logout();
-        std::cout << "LOGOUT OCCURS3" << std::endl;
+        dailyTransactionWriter.writeDailyTransactionFile(sharedData.getCurrentUser());
     }
 
     // Helper function to handle the "sell" transaction
