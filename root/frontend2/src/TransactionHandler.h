@@ -3,15 +3,15 @@
 
 #include <iostream>
 #include <string>
+
 #include "AuthManager.h"
-#include "UserManager.h"
+#include "DailyTransactionWriter.h"
 #include "GameManager.h"
 #include "SharedData.h"
-#include "DailyTransactionWriter.h"
+#include "UserManager.h"
 
-class TransactionHandler
-{
-public:
+class TransactionHandler {
+   public:
     // Constructor that takes a SharedData reference and filenames for various data
     TransactionHandler(SharedData &sharedData, const std::string &usersFilename,
                        const std::string &availableGamesFilename, const std::string gamesCollectionFilename,
@@ -23,23 +23,17 @@ public:
           dailyTransactionWriter(dailyTransactionFilename) {}
 
     // Function to handle different transactions based on the provided transaction code
-    void handleTransaction(const std::string &transactionCode)
-    {
-        if (transactionCode == "login")
-        {
+    void handleTransaction(const std::string &transactionCode) {
+        if (transactionCode == "login") {
             handleLoginTransaction();
-        }
-        else if (!isLoggedIn)
-        {
+        } else if (!isLoggedIn) {
             std::cout << "You must login first" << std::endl;
-        }
-        else
-        {
+        } else {
             handleLoggedInTransaction(transactionCode);
         }
     }
 
-private:
+   private:
     // Variable to track whether a user is logged in
     bool isLoggedIn = false;
 
@@ -55,79 +49,50 @@ private:
     DailyTransactionWriter dailyTransactionWriter;
 
     // Helper function to handle the "login" transaction
-    void handleLoginTransaction()
-    {
-        if (isLoggedIn)
-        {
+    void handleLoginTransaction() {
+        if (isLoggedIn) {
             std::cout << "You are already logged in" << std::endl;
-        }
-        else
-        {
+        } else {
             isLoggedIn = authManager.login();
         }
     }
 
     // Helper function to handle transactions when the user is already logged in
-    void handleLoggedInTransaction(const std::string &transactionCode)
-    {
-        if (transactionCode == "logout")
-        {
+    void handleLoggedInTransaction(const std::string &transactionCode) {
+        if (transactionCode == "logout") {
             handleLogoutTransaction();
-        }
-        else if (transactionCode == "sell")
-        {
+        } else if (transactionCode == "sell") {
             handleSellTransaction();
-        }
-        else if (transactionCode == "buy")
-        {
+        } else if (transactionCode == "buy") {
             handleBuyTransaction();
-        }
-        else if (transactionCode == "create")
-        {
+        } else if (transactionCode == "create") {
             handleCreateTransaction();
-        }
-        else if (transactionCode == "delete")
-        {
+        } else if (transactionCode == "delete") {
             handleDeleteTransaction();
-        }
-        else if (transactionCode == "refund")
-        {
+        } else if (transactionCode == "refund") {
             handleRefundTransaction();
-        }
-        else if (transactionCode == "addcredit")
-        {
+        } else if (transactionCode == "addcredit") {
             handleAddCreditTransaction();
-        }
-        else if (transactionCode == "list")
-        {
+        } else if (transactionCode == "list") {
             handleListTransaction();
-        }
-        else if (transactionCode == "listusers")
-        {
+        } else if (transactionCode == "listusers") {
             handleListUsersTransaction();
-        }
-        else
-        {
+        } else {
             std::cout << "Invalid transaction code. Please try again." << std::endl;
         }
     }
 
     // Helper function to handle the "logout" transaction
-    void handleLogoutTransaction()
-    {
+    void handleLogoutTransaction() {
         isLoggedIn = !authManager.logout();
         dailyTransactionWriter.writeDailyTransactionFile(sharedData.getCurrentUser());
     }
 
     // Helper function to handle the "sell" transaction
-    void handleSellTransaction()
-    {
-        if (sharedData.getCurrentUser().getType() == BuyStandard || sharedData.getCurrentUser().getType() == AccountManager)
-        {
+    void handleSellTransaction() {
+        if (sharedData.getCurrentUser().getType() == BuyStandard || sharedData.getCurrentUser().getType() == AccountManager) {
             std::cout << "You do not have the privilege to sell a game." << std::endl;
-        }
-        else
-        {
+        } else {
             Game game = gameManager.sellGame();
 
             if (game.getGameName() == "")
@@ -138,14 +103,10 @@ private:
     }
 
     // Helper function to handle the "buy" transaction
-    void handleBuyTransaction()
-    {
-        if (sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == AccountManager)
-        {
+    void handleBuyTransaction() {
+        if (sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == AccountManager) {
             std::cout << "You do not have the privilege to sell a game." << std::endl;
-        }
-        else
-        {
+        } else {
             Game game = gameManager.buyGame();
 
             // If buy game failed
@@ -158,28 +119,20 @@ private:
     }
 
     // Helper function to handle the "create" transaction
-    void handleCreateTransaction()
-    {
-        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard)
-        {
+    void handleCreateTransaction() {
+        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard) {
             std::cout << "User unauthorized" << std::endl;
-        }
-        else
-        {
+        } else {
             User user = userManager.createUser();
             dailyTransactionWriter.addUserTransaction("01", user);
         }
     }
 
     // Helper function to handle the "delete" transaction
-    void handleDeleteTransaction()
-    {
-        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard)
-        {
+    void handleDeleteTransaction() {
+        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard) {
             std::cout << "User unauthorized" << std::endl;
-        }
-        else
-        {
+        } else {
             User deletedUser = userManager.deleteUser();
 
             // If user deletion failed
@@ -193,14 +146,10 @@ private:
     }
 
     // Helper function to handle the "refund" transaction
-    void handleRefundTransaction()
-    {
-        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard)
-        {
+    void handleRefundTransaction() {
+        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard) {
             std::cout << "User unauthorized" << std::endl;
-        }
-        else
-        {
+        } else {
             refundResult refund = userManager.refund();
 
             // If refund failed
@@ -212,33 +161,31 @@ private:
     }
 
     // Helper function to handle the "addcredit" transaction
-    void handleAddCreditTransaction()
-    {
+    void handleAddCreditTransaction() {
         User *user = userManager.addCredit();
-        if (user != nullptr)
-        {
+        if (user != nullptr) {
             dailyTransactionWriter.addUserTransaction("06", *user);
         }
     }
 
     // Helper function to handle the "list" transaction
-    void handleListTransaction()
-    {
+    void handleListTransaction() {
         gameManager.listAvailableGames();
     }
 
     // Helper function to handle the "listusers" transaction
-    void handleListUsersTransaction()
-    {
-        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard)
-        {
+    void handleListUsersTransaction() {
+        if (sharedData.getCurrentUser().getType() == FullStandard || sharedData.getCurrentUser().getType() == SellStandard || sharedData.getCurrentUser().getType() == BuyStandard) {
             std::cout << "User unauthorized" << std::endl;
-        }
-        else
-        {
+        } else {
             userManager.listUsers();
         }
     }
+
+    // Helper function to handle the "search" transaction
+    // void handleSearch() {
+    //  user.Search();
+    // }
 };
 
 #endif
