@@ -14,7 +14,7 @@ class User {
         : username(username), type(type), credit(credit){};
 
     bool isAdmin() const {
-        return isAdmin;
+        return isadmin;
     }
 
     // Getter methods to retrieve user information
@@ -58,7 +58,7 @@ class User {
     std::string username;
     int type;
     double credit;
-    bool isAdmin;  // for search.h
+    bool isadmin;  // for search.h
     // Member variable representing the vector of games in the user's collection
     std::vector<Game> gamesCollection;
 };
