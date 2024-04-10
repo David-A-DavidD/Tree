@@ -1,0 +1,13 @@
+Enter transaction code (or 'exit' to quit): Enter username: Login successful.
+Enter the username: Enter the amount of credit to add: Credit added successfully. New credit for user buyUser: 50.00
+Available Games:
+Game Name                    Seller           Price
+mygame_____________________   admin           100.00
+----------------------------------------------------
+Mario______________________   admin           100.00
+----------------------------------------------------
+halo3______________________   admin           100.00
+----------------------------------------------------
+gameForSale________________   sellUser        100.00
+----------------------------------------------------
+Logout successful.

@@ -1,0 +1,4 @@
+Enter transaction code (or 'exit' to quit): Enter username: Login successful.
+Enter username: Enter user type (1-admin, 2-full-standard, 3-buy-standard, 4-sell-standard, 5-account-manager): User created successfully.
+Enter the username to delete: User deleted successfully.
+Logout successful.

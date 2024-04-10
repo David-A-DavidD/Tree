@@ -1,0 +1,15 @@
+Enter transaction code (or 'exit' to quit): Enter username: Login successful.
+Enter the username: Enter the amount of credit to add: Credit added successfully. New credit for user buyUser: 50.00
+User Information:
+Username           User Type     Credit
+admin___________   AA           1600.00
+-----------------------------
+test____________    FS           360.00
+-----------------------------
+Justin__________    AM          1620.00
+-----------------------------
+sellUser________    SS          1620.00
+-----------------------------
+buyUser_________    BS          1620.00
+-----------------------------
+Logout successful.
